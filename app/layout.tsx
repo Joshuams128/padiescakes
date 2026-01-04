@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import TrustBar from '@/components/TrustBar';
 import StickyMobileCartButton from '@/components/StickyMobileCartButton';
 import Footer from '@/components/Footer';
+import { CartProvider } from '@/context/CartContext';
 
 export const metadata: Metadata = {
   title: 'Padiescakes - Handcrafted Cupcake Bouquets & Custom Cakes',
@@ -18,13 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <TrustBar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <StickyMobileCartButton />
-        <Footer />
+        <CartProvider>
+          <Header />
+          <TrustBar />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <StickyMobileCartButton />
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

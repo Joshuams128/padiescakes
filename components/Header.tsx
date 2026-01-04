@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -13,8 +14,14 @@ export default function Header() {
       <nav className="container-custom py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-primary-600">
-            Padiescakes
+          <Link href="/" className="flex items-center">
+            <Image 
+              src="/images/PadieCakes-RMX-1.webp" 
+              alt="Padiescakes Logo" 
+              width={150}
+              height={50}
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

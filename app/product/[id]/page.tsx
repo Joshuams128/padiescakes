@@ -1,19 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { products, dietaryAddons } from '@/lib/products';
+import { useCart } from '@/context/CartContext';
 
 export default function ProductPage() {
   const params = useParams();
+  const router = useRouter();
   const product = products.find((p) => p.id === params.id);
+  const { addItem } = useCart();
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedFlavor, setSelectedFlavor] = useState<string>('');
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   if (!product) {
     return (
@@ -46,6 +50,33 @@ export default function ProductPage() {
       if (addon) total += addon.price * quantity;
     });
     return total;
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedFlavor) return;
+
+    const itemPrice = calculateTotalPrice() / quantity; // Price per item including addons
+
+    addItem({
+      id: `${product.id}-${selectedFlavor}-${selectedAddons.sort().join('-')}-${Date.now()}`,
+      productId: product.id,
+      name: product.name,
+      flavor: selectedFlavor,
+      dietaryOptions: selectedAddons,
+      quantity: quantity,
+      price: itemPrice,
+      image: product.image,
+    });
+
+    // Show success message
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+
+    // Reset selections
+    setSelectedFlavor('');
+    setSelectedAddons([]);
+    setNotes('');
+    setQuantity(1);
   };
 
   return (
@@ -223,16 +254,30 @@ export default function ProductPage() {
             </div>
 
             {/* Add to Cart Button */}
-            <button
-              disabled={!selectedFlavor}
-              className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${
-                selectedFlavor
-                  ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {selectedFlavor ? 'Add to Cart' : 'Please Select a Flavor'}
-            </button>
+            <div className="relative">
+              {showSuccess && (
+                <div className="absolute -top-16 left-0 right-0 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg text-center font-semibold">
+                  ✓ Added to cart!
+                </div>
+              )}
+              <button
+                onClick={handleAddToCart}
+                disabled={!selectedFlavor}
+                className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${
+                  selectedFlavor
+                    ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {selectedFlavor ? 'Add to Cart' : 'Please Select a Flavor'}
+              </button>
+              <button
+                onClick={() => router.push('/cart')}
+                className="w-full mt-3 py-4 rounded-lg font-bold text-lg bg-white border-2 border-primary-600 text-primary-600 hover:bg-primary-50 transition-all"
+              >
+                View Cart
+              </button>
+            </div>
 
             {/* Product Features */}
             <div className="mt-8 pt-8 border-t border-gray-200">

@@ -10,7 +10,8 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                Sweet Moments,
+                Florals You Can Eat!
+
                 <span className="text-primary-600"> Beautifully Crafted</span>
               </h1>
               <p className="text-xl text-gray-700 mb-8">
@@ -41,42 +42,51 @@ export default function HomePage() {
             Perfect for Every Occasion
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Wedding */}
-            <Link href="/shop?occasion=wedding" className="group">
-              <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-300 to-pink-400 flex items-center justify-center text-white text-xl font-bold group-hover:scale-105 transition-transform duration-300">
-                  Wedding
-                </div>
+            {/* 7-Cupcake Bouquet */}
+            <Link href="/shop" className="group">
+              <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
+                <Image 
+                  src="/images/7-cupcake-bouquet.jpg"
+                  alt="7-Cupcake Bouquet"
+                  fill
+                  className="object-contain group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Weddings</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">7-Cupcake Bouquet</h3>
               <p className="text-gray-600">
-                Elegant bouquets and cakes to make your special day unforgettable.
+                A charming arrangement of seven floral cupcakes features moist cake bases topped with delicately hand-piped buttercream flowers that are soft and flavourful.
               </p>
             </Link>
 
-            {/* Birthday */}
-            <Link href="/shop?occasion=birthday" className="group">
-              <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-300 to-yellow-400 flex items-center justify-center text-white text-xl font-bold group-hover:scale-105 transition-transform duration-300">
-                  Birthday
-                </div>
+            {/* Heart Shaped Vintage Cake */}
+            <Link href="/shop" className="group">
+              <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
+                <Image 
+                  src="/images/heart-shaped-vintage-cake.jpg"
+                  alt="Heart Shaped Vintage Cake"
+                  fill
+                  className="object-contain group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Birthdays</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Heart Shaped Vintage Cake</h3>
               <p className="text-gray-600">
-                Celebrate with colorful, delicious treats that bring joy to any age.
+                A 6-inch heart-shaped vintage cake with moist cake layers that features delicate, rich layers of cake that are soft and flavourful.
               </p>
             </Link>
 
-            {/* Corporate */}
-            <Link href="/shop?occasion=corporate" className="group">
-              <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-300 to-blue-400 flex items-center justify-center text-white text-xl font-bold group-hover:scale-105 transition-transform duration-300">
-                  Corporate
-                </div>
+            {/* Box of 24 Mini Floral Cupcakes */}
+            <Link href="/shop" className="group">
+              <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
+                <Image 
+                  src="/images/24-mini-floral-cupcakes.jpg"
+                  alt="Box of 24 Mini Floral Cupcakes"
+                  fill
+                  className="object-contain group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Corporate Events</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Box of 24 Mini Floral Cupcakes</h3>
               <p className="text-gray-600">
-                Impress clients and colleagues with professional, stunning presentations.
+                Double the delight with a box of twenty-four mini cupcakes, each one decorated with detailed buttercream florals in elegant, custom colours.
               </p>
             </Link>
           </div>
