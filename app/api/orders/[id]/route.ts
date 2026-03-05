@@ -12,15 +12,16 @@ function verifyAuth(req: NextRequest) {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!verifyAuth(req)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     await connectDB();
-    const order = await Order.findById(params.id);
+    const order = await Order.findById(id);
     
     if (!order) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
@@ -35,13 +36,14 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!verifyAuth(req)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     await connectDB();
     const { status } = await req.json();
 
@@ -51,7 +53,7 @@ export async function PATCH(
     }
 
     const order = await Order.findByIdAndUpdate(
-      params.id,
+      id,
       { status },
       { new: true }
     );
