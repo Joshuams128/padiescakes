@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { products, categories } from '@/lib/products';
 
 export default function ShopPage() {
@@ -53,10 +54,13 @@ export default function ShopPage() {
               <Link href={`/product/${product.id}`}>
                 <div className="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 group-hover:shadow-xl">
                   {/* Product Image */}
-                  <div className="relative aspect-square bg-gradient-to-br from-primary-200 to-secondary-200">
-                    <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-semibold">
-                      {product.name}
-                    </div>
+                  <div className="relative aspect-square bg-gray-100">
+                    <Image 
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-contain"
+                    />
                   </div>
 
                   {/* Product Info */}

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { products, dietaryAddons } from '@/lib/products';
 import { useCart } from '@/context/CartContext';
 
@@ -12,8 +13,7 @@ export default function ProductPage() {
   const product = products.find((p) => p.id === params.id);
   const { addItem } = useCart();
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedFlavor, setSelectedFlavor] = useState<string>('');
+  const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -33,7 +33,22 @@ export default function ProductPage() {
   }
 
   // Mock images for gallery (in real app, these would come from product data)
-  const images = [1, 2, 3, 4];
+  // const images = [1, 2, 3, 4];
+
+  const maxFlavorCount = product.maxFlavors || 1;
+
+  const toggleFlavor = (flavor: string) => {
+    setSelectedFlavors((prev) => {
+      if (prev.includes(flavor)) {
+        return prev.filter((f) => f !== flavor);
+      } else {
+        if (prev.length < maxFlavorCount) {
+          return [...prev, flavor];
+        }
+        return prev;
+      }
+    });
+  };
 
   const toggleAddon = (addonId: string) => {
     setSelectedAddons((prev) =>
@@ -53,19 +68,20 @@ export default function ProductPage() {
   };
 
   const handleAddToCart = () => {
-    if (!selectedFlavor) return;
+    if (selectedFlavors.length === 0) return;
 
     const itemPrice = calculateTotalPrice() / quantity; // Price per item including addons
 
     addItem({
-      id: `${product.id}-${selectedFlavor}-${selectedAddons.sort().join('-')}-${Date.now()}`,
+      id: `${product.id}-${selectedFlavors.sort().join('-')}-${selectedAddons.sort().join('-')}-${Date.now()}`,
       productId: product.id,
       name: product.name,
-      flavor: selectedFlavor,
+      flavor: selectedFlavors.join(', '),
       dietaryOptions: selectedAddons,
       quantity: quantity,
       price: itemPrice,
       image: product.image,
+      notes: notes || undefined,
     });
 
     // Show success message
@@ -73,7 +89,7 @@ export default function ProductPage() {
     setTimeout(() => setShowSuccess(false), 3000);
 
     // Reset selections
-    setSelectedFlavor('');
+    setSelectedFlavors([]);
     setSelectedAddons([]);
     setNotes('');
     setQuantity(1);
@@ -99,29 +115,13 @@ export default function ProductPage() {
           {/* Image Gallery */}
           <div>
             {/* Main Image */}
-            <div className="relative aspect-square bg-gradient-to-br from-primary-200 to-secondary-200 rounded-lg overflow-hidden mb-4">
-              <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-semibold text-xl">
-                {product.name} - Image {currentImageIndex + 1}
-              </div>
-            </div>
-
-            {/* Thumbnail Gallery */}
-            <div className="grid grid-cols-4 gap-2">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`aspect-square bg-gradient-to-br from-primary-100 to-secondary-100 rounded-md overflow-hidden ${
-                    currentImageIndex === index
-                      ? 'ring-2 ring-primary-600'
-                      : 'opacity-60 hover:opacity-100'
-                  } transition-all`}
-                >
-                  <div className="w-full h-full flex items-center justify-center text-xs text-gray-600">
-                    {index + 1}
-                  </div>
-                </button>
-              ))}
+            <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
+              <Image 
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
 
@@ -143,15 +143,15 @@ export default function ProductPage() {
             {/* Flavor Selection */}
             <div className="mb-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                Select Flavor <span className="text-red-500">*</span>
+                Select Flavor{maxFlavorCount > 1 && `(s) - Choose up to ${maxFlavorCount}`} <span className="text-red-500">*</span>
               </h3>
               <div className="flex flex-wrap gap-3">
                 {product.flavors.map((flavor) => (
                   <button
                     key={flavor}
-                    onClick={() => setSelectedFlavor(flavor)}
+                    onClick={() => toggleFlavor(flavor)}
                     className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                      selectedFlavor === flavor
+                      selectedFlavors.includes(flavor)
                         ? 'bg-primary-600 text-white shadow-md'
                         : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-primary-400'
                     }`}
@@ -160,6 +160,11 @@ export default function ProductPage() {
                   </button>
                 ))}
               </div>
+              {maxFlavorCount > 1 && (
+                <p className="text-sm text-gray-600 mt-2">
+                  {selectedFlavors.length}/{maxFlavorCount} selected
+                </p>
+              )}
             </div>
 
             {/* Size Selection (if applicable) */}
@@ -262,14 +267,16 @@ export default function ProductPage() {
               )}
               <button
                 onClick={handleAddToCart}
-                disabled={!selectedFlavor}
+                disabled={selectedFlavors.length === 0}
                 className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${
-                  selectedFlavor
+                  selectedFlavors.length > 0
                     ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                {selectedFlavor ? 'Add to Cart' : 'Please Select a Flavor'}
+                {selectedFlavors.length > 0
+                  ? 'Add to Cart'
+                  : `Please Select ${maxFlavorCount > 1 ? `up to ${maxFlavorCount}` : 'a'} Flavor`}
               </button>
               <button
                 onClick={() => router.push('/cart')}

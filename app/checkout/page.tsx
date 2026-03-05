@@ -89,13 +89,24 @@ export default function CheckoutPage() {
 
     try {
       const orderData = {
-        customer: formData,
-        items: items,
-        total: getTotalPrice(),
-        orderNumber: Date.now().toString(),
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.deliveryAddress,
+        dateNeeded: formData.dateNeeded,
+        notes: formData.specialNotes,
+        items: items.map(item => ({
+          name: item.name,
+          flavor: item.flavor,
+          dietaryOptions: item.dietaryOptions,
+          notes: item.notes,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        total: getTotalPrice()
       };
 
-      const response = await fetch('/api/order', {
+      const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -104,14 +115,15 @@ export default function CheckoutPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit order');
+        const errorData = await response.json();
+        console.error('API error response:', errorData);
+        throw new Error(`Failed to submit order: ${errorData.error || 'Unknown error'}`);
       }
 
-      const result = await response.json();
-
-      // Clear cart and redirect to success page
+      const data = await response.json();
+      const orderTotal = getTotalPrice();
       clearCart();
-      router.push(`/success?orderNumber=${result.orderNumber}&total=${result.total}`);
+      router.push(`/success?orderNumber=${data.orderNumber}&total=${orderTotal}`);
     } catch (error) {
       console.error('Order submission error:', error);
       alert('There was an error submitting your order. Please try again.');

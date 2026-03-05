@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
             <strong>${item.name}</strong><br />
             <small>Flavor: ${item.flavor}</small><br />
             ${item.dietaryOptions.length > 0 ? `<small>Options: ${item.dietaryOptions.join(', ')}</small><br />` : ''}
+            ${item.notes ? `<small><strong>Special Instructions:</strong> ${item.notes}</small><br />` : ''}
             <small>Quantity: ${item.quantity}</small>
           </td>
           <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: right;">

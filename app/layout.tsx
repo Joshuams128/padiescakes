@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
-import TrustBar from '@/components/TrustBar';
 import StickyMobileCartButton from '@/components/StickyMobileCartButton';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
@@ -21,7 +20,6 @@ export default function RootLayout({
       <body>
         <CartProvider>
           <Header />
-          <TrustBar />
           <main className="min-h-screen">
             {children}
           </main>
