@@ -168,20 +168,31 @@ export async function POST(request: NextRequest) {
     `;
 
     // Send email to business owner
-    await resend.emails.send({
-      from: "Padie's Cakes <info@padiescakes.ca>",
-      to: 'joshuams128@gmail.com',
-      subject: `New Order #${orderNumber} - $${total.toFixed(2)}`,
-      html: ownerEmailHtml,
-    });
+    try {
+      await resend.emails.send({
+        from: "Padie's Cakes <info@padiescakes.ca>",
+        to: 'joshuams128@gmail.com',
+        subject: `New Order #${orderNumber} - $${total.toFixed(2)}`,
+        html: ownerEmailHtml,
+      });
+      console.log('Owner email sent successfully');
+    } catch (error) {
+      console.error('Failed to send owner email:', error);
+    }
 
     // Send confirmation email to customer
-    await resend.emails.send({
-      from: "Padie's Cakes <info@padiescakes.ca>",
-      to: customer.email,
-      subject: `Order Confirmation #${orderNumber} - Padiescakes`,
-      html: customerEmailHtml,
-    });
+    try {
+      console.log('Sending customer email to:', customer.email);
+      await resend.emails.send({
+        from: "Padie's Cakes <info@padiescakes.ca>",
+        to: customer.email,
+        subject: `Order Confirmation #${orderNumber} - Padiescakes`,
+        html: customerEmailHtml,
+      });
+      console.log('Customer email sent successfully');
+    } catch (error) {
+      console.error('Failed to send customer email:', error);
+    }
 
     return NextResponse.json(
       {
