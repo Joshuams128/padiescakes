@@ -9,7 +9,7 @@ export default function HomePage() {
     <div>
       {/* Hero Section */}
       <section className="relative bg-primary-600 py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/50" />
         <div className="container-custom relative z-10">
           <div className="text-center max-w-3xl mx-auto">
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
@@ -70,7 +70,7 @@ export default function HomePage() {
 
       {/* Popular Product */}
       <section className="relative py-20 bg-primary-600 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/50" />
         <div className="container-custom relative z-10">
           <h2 className="text-4xl font-bold text-center text-white mb-12">
           Most Popular Choice
