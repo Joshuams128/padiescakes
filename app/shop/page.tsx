@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { products, categories } from '@/lib/products';
 
-export default function ShopPage() {
+function ShopContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialCategory = searchParams.get('category') || 'all';
@@ -69,7 +69,7 @@ export default function ShopPage() {
                   {/* Product Image */}
                   <div className="relative aspect-square bg-white flex-shrink-0">
                     <div className="absolute inset-3">
-                      <Image 
+                      <Image
                         src={product.image}
                         alt={product.name}
                         fill
@@ -121,5 +121,13 @@ export default function ShopPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense>
+      <ShopContent />
+    </Suspense>
   );
 }
