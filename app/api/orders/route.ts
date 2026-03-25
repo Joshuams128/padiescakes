@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       subject: `New Order #${orderNumber} from ${order.name} - $${order.total.toFixed(2)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-          <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <div style="background-color: #F1D4E1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">New Order Received!</h1>
           </div>
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
       subject: `Order Confirmation #${orderNumber} - Padie's Cakes`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-          <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <div style="background-color: #F1D4E1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">Thank You for Your Order!</h1>
           </div>
