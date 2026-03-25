@@ -8,6 +8,10 @@ import { CartProvider } from '@/context/CartContext';
 export const metadata: Metadata = {
   title: 'Padiescakes - Handcrafted Cupcake Bouquets & Custom Cakes',
   description: 'Discover beautiful cupcake bouquets, custom cakes, and sweet treats for all occasions. Wedding, birthday, and corporate orders welcome.',
+  icons: {
+    icon: '/images/PadieCakes-RMX-1.png',
+    apple: '/images/PadieCakes-RMX-1.png',
+  },
 };
 
 export default function RootLayout({

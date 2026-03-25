@@ -53,6 +53,7 @@ export async function POST(request: NextRequest) {
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">New Order Received!</h1>
           </div>
           
@@ -116,6 +117,7 @@ export async function POST(request: NextRequest) {
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">Thank You for Your Order!</h1>
           </div>
           

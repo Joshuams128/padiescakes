@@ -4,10 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useCart } from '@/context/CartContext';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartItemCount] = useState(0);
+  const { getTotalItems } = useCart();
+  const cartItemCount = getTotalItems();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">

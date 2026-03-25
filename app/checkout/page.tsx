@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { dietaryAddons } from '@/lib/products';
 
 export default function CheckoutPage() {
@@ -312,7 +313,14 @@ export default function CheckoutPage() {
 
                   return (
                     <div key={item.id} className="flex gap-3 pb-4 border-b border-gray-200">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary-200 to-secondary-200 rounded flex-shrink-0"></div>
+                      <div className="w-16 h-16 bg-white rounded flex-shrink-0 relative">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-contain p-1"
+                        />
+                      </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900 text-sm">{item.name}</h3>
                         <p className="text-xs text-gray-600">Flavor: {item.flavor}</p>
@@ -337,8 +345,12 @@ export default function CheckoutPage() {
                   <span>${total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
+                  <span>Pickup</span>
+                  <span className="text-sm font-semibold text-green-600">Free</span>
+                </div>
+                <div className="flex justify-between text-gray-600">
                   <span>Delivery</span>
-                  <span className="text-sm">To be arranged</span>
+                  <span className="text-sm">Additional charge applies</span>
                 </div>
               </div>
 

@@ -43,7 +43,7 @@ export default function ShopPage() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8 auto-rows-max">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
@@ -52,26 +52,28 @@ export default function ShopPage() {
               onMouseLeave={() => setHoveredProduct(null)}
             >
               <Link href={`/product/${product.id}`}>
-                <div className="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 group-hover:shadow-xl">
+                <div className="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 group-hover:shadow-xl flex flex-col h-full">
                   {/* Product Image */}
-                  <div className="relative aspect-square bg-gray-100">
-                    <Image 
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-contain"
-                    />
+                  <div className="relative aspect-square bg-white flex-shrink-0">
+                    <div className="absolute inset-3">
+                      <Image 
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
                   </div>
 
                   {/* Product Info */}
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  <div className="p-4 flex flex-col flex-grow">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
                       {product.description}
                     </p>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-auto">
                       <span className="text-xl font-bold text-primary-600">
                         ${product.basePrice}
                       </span>

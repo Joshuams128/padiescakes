@@ -21,28 +21,80 @@ export async function POST(req: Request) {
     await resend.emails.send({
       from: "Padie's Cakes <onboarding@resend.dev>",
       to: 'joshuams128@gmail.com',
-      subject: `New Order from ${order.name}`,
+      subject: `New Order #${orderNumber} from ${order.name} - $${order.total.toFixed(2)}`,
       html: `
-        <h2>New Order Received</h2>
-        <p><strong>Order #:</strong> ${orderNumber}</p>
-        <h3>Customer Information</h3>
-        <p><strong>Name:</strong> ${order.name}</p>
-        <p><strong>Email:</strong> ${order.email}</p>
-        <p><strong>Phone:</strong> ${order.phone}</p>
-        <p><strong>Address:</strong> ${order.address}</p>
-        <p><strong>Date Needed:</strong> ${order.dateNeeded}</p>
-        ${order.notes ? `<p><strong>Special Notes:</strong> ${order.notes}</p>` : ''}
-        <h3>Order Items</h3>
-        ${order.items.map((item: any) => `
-          <p>
-            <strong>${item.name}</strong><br/>
-            Flavor: ${item.flavor}<br/>
-            ${item.dietaryOptions?.length > 0 ? `Dietary Options: ${item.dietaryOptions.join(', ')}<br/>` : ''}
-            ${item.notes ? `Special Instructions: ${item.notes}<br/>` : ''}
-            Quantity: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}
-          </p>
-        `).join('')}
-        <p><strong>Total: $${order.total.toFixed(2)}</strong></p>
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+          <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
+            <h1 style="color: white; margin: 0;">New Order Received!</h1>
+          </div>
+          <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
+            <h2 style="color: #ec4899; margin-top: 0;">Order #${orderNumber}</h2>
+            <h3 style="color: #374151;">Customer Information</h3>
+            <p><strong>Name:</strong> ${order.name}</p>
+            <p><strong>Email:</strong> ${order.email}</p>
+            <p><strong>Phone:</strong> ${order.phone}</p>
+            <p><strong>Address:</strong> ${order.address}</p>
+            <p><strong>Date Needed:</strong> ${order.dateNeeded}</p>
+            ${order.notes ? `<p><strong>Special Notes:</strong> ${order.notes}</p>` : ''}
+            <h3 style="color: #374151;">Order Items</h3>
+            ${order.items.map((item: any) => `
+              <p>
+                <strong>${item.name}</strong><br/>
+                Flavor: ${item.flavor}<br/>
+                ${item.dietaryOptions?.length > 0 ? `Dietary Options: ${item.dietaryOptions.join(', ')}<br/>` : ''}
+                ${item.notes ? `Special Instructions: ${item.notes}<br/>` : ''}
+                Quantity: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}
+              </p>
+            `).join('')}
+            <p style="font-size: 1.2em;"><strong>Total: $${order.total.toFixed(2)}</strong></p>
+          </div>
+        </div>
+      `,
+    });
+
+    // Send confirmation email to customer
+    await resend.emails.send({
+      from: "Padie's Cakes <onboarding@resend.dev>",
+      to: order.email,
+      subject: `Order Confirmation #${orderNumber} - Padie's Cakes`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+          <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
+            <h1 style="color: white; margin: 0;">Thank You for Your Order!</h1>
+          </div>
+          <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
+            <p style="font-size: 1.1em;">Hi ${order.name},</p>
+            <p>We've received your order and we're so excited to create something special for you! 🎉</p>
+            <h2 style="color: #ec4899;">Order #${orderNumber}</h2>
+            <h3 style="color: #374151;">Order Summary</h3>
+            ${order.items.map((item: any) => `
+              <p>
+                <strong>${item.name}</strong><br/>
+                Flavor: ${item.flavor}<br/>
+                ${item.dietaryOptions?.length > 0 ? `Dietary Options: ${item.dietaryOptions.join(', ')}<br/>` : ''}
+                ${item.notes ? `Special Instructions: ${item.notes}<br/>` : ''}
+                Quantity: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}
+              </p>
+            `).join('')}
+            <p><strong>Total: $${order.total.toFixed(2)}</strong></p>
+            <h3 style="color: #374151;">Delivery Details</h3>
+            <p><strong>Address:</strong> ${order.address}</p>
+            <p><strong>Date Needed:</strong> ${order.dateNeeded}</p>
+            <div style="background-color: #dcfce7; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin: 20px 0;">
+              <h3 style="color: #065f46; margin-top: 0;">💳 Payment Instructions</h3>
+              <p style="margin: 5px 0;">Please send an e-transfer for <strong style="color: #ec4899;">$${order.total.toFixed(2)}</strong> to:</p>
+              <p style="margin: 5px 0; font-size: 1.2em;"><strong>padiescakes@gmail.com</strong></p>
+              <p style="margin: 5px 0;"><strong>Reference:</strong> Order #${orderNumber}</p>
+            </div>
+            <div style="background-color: #e0f2fe; border-left: 4px solid #0284c7; padding: 15px; border-radius: 4px; margin-top: 20px;">
+              <p style="margin: 0;"><strong>📞 Next Steps:</strong> We'll contact you within 24 hours to confirm your order details and finalize delivery arrangements.</p>
+            </div>
+            <p style="margin-top: 20px;">If you have any questions, please don't hesitate to reach out!</p>
+            <p style="margin-top: 30px;">With love,<br><strong>Padie's Cakes Team</strong></p>
+          </div>
+        </div>
       `,
     });
 

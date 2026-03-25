@@ -115,13 +115,15 @@ export default function ProductPage() {
           {/* Image Gallery */}
           <div>
             {/* Main Image */}
-            <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-              <Image 
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-contain"
-              />
+            <div className="relative aspect-square bg-white rounded-lg overflow-hidden mb-4">
+              <div className="absolute inset-4">
+                <Image 
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
           </div>
 
@@ -326,9 +328,14 @@ export default function ProductPage() {
                   className="group"
                 >
                   <div className="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 group-hover:shadow-xl">
-                    <div className="relative aspect-square bg-gradient-to-br from-primary-200 to-secondary-200">
-                      <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-semibold text-sm px-4 text-center">
-                        {relatedProduct.name}
+                    <div className="relative aspect-square bg-white">
+                      <div className="absolute inset-3">
+                        <Image
+                          src={relatedProduct.image}
+                          alt={relatedProduct.name}
+                          fill
+                          className="object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
                       </div>
                     </div>
                     <div className="p-4">

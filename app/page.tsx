@@ -10,8 +10,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-50 to-secondary-50 py-20">
         <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+          <div className="text-center max-w-3xl mx-auto">
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
                 Florals You Can Eat!
 
@@ -20,7 +19,7 @@ export default function HomePage() {
               <p className="text-xl text-gray-700 mb-8">
                 Handcrafted cupcake bouquets and custom cakes for every special occasion.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center">
                 <Link href="/shop" className="btn-primary">
                   Shop Now
                 </Link>
@@ -28,15 +27,6 @@ export default function HomePage() {
                   Custom Orders
                 </Link>
               </div>
-            </div>
-            <div className="relative h-96 rounded-lg overflow-hidden shadow-2xl">
-              <Image 
-                src="/images/7-cupcake-bouquet.jpg"
-                alt="7-Cupcake Bouquet"
-                fill
-                className="object-contain"
-              />
-            </div>
           </div>
         </div>
       </section>
@@ -68,6 +58,11 @@ export default function HomePage() {
                 </Link>
               );
             })}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/shop" className="btn-primary inline-block">
+              View All
+            </Link>
           </div>
         </div>
       </section>

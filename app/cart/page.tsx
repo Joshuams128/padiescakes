@@ -144,14 +144,50 @@ export default function CartPage() {
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
 
+              {/* Order Items List */}
+              <div className="space-y-4 mb-6 pb-6 border-b">
+                {items.map((item) => {
+                  const dietaryNames = item.dietaryOptions
+                    .map((id) => dietaryAddons.find((a) => a.id === id)?.name)
+                    .filter(Boolean);
+
+                  return (
+                    <div key={item.id} className="flex gap-3">
+                      {/* Product Image */}
+                      <div className="w-14 h-14 bg-gray-100 rounded flex-shrink-0 relative">
+                        <Image 
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-contain p-1"
+                        />
+                      </div>
+                      
+                      {/* Product Info */}
+                      <div className="flex-1 text-sm">
+                        <p className="font-semibold text-gray-900 line-clamp-1">{item.name}</p>
+                        <p className="text-xs text-gray-600">Flavor: {item.flavor}</p>
+                        {dietaryNames.length > 0 && (
+                          <p className="text-xs text-gray-600">{dietaryNames.join(', ')}</p>
+                        )}
+                        <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
+                        <p className="font-semibold text-primary-600 mt-1">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
-                  <span>Items ({getTotalItems()})</span>
-                  <span>${getTotalPrice().toFixed(2)}</span>
+                  <span>Pickup</span>
+                  <span className="text-sm font-semibold text-green-600">Free</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Delivery</span>
-                  <span className="text-sm">Calculated at checkout</span>
+                  <span className="text-sm">Additional charge applies</span>
                 </div>
               </div>
 

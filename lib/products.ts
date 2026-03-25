@@ -29,7 +29,7 @@ export const products: Product[] = [
   {
     id: '14-mini-cupcake-bouquet-on-a-cake-board',
     name: '14 Mini Cupcake Bouquet on a Cake Board',
-    category: 'bouquets',
+    category: 'mini-cupcakes',
     description: 'A charming display of 14 mini cupcakes elegantly arranged on a cake board. Each mini cupcake is a delightful treat, hand-piped with buttercream flowers. Perfect for intimate gatherings or as a stunning table centerpiece.',
     basePrice: 55,
     image: '/images/14MiniCupcake.jpeg',
@@ -76,6 +76,19 @@ export const products: Product[] = [
       { name: 'Large', pieces: 44, price: 350, serves: '35-44 people' },
     ],
   },
+  {
+    id: '86-cupcake-bouquet',
+    name: '86-Cupcake Bouquet',
+    category: 'bouquets',
+    description: 'A bouquet of 86 floral-designed cupcakes.',
+    basePrice: 850,
+    image: '/images/86cupcakes.png',
+    flavors: ['Chocolate', 'Lemon', 'Strawberry', 'Vanilla'],
+    maxFlavors: 4,
+    sizes: [
+      { name: 'Extra Large', pieces: 86, price: 850, serves: '70-86 people' },
+    ],
+  },
 
   // Boxed Cupcakes
   {
@@ -107,13 +120,40 @@ export const products: Product[] = [
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
   },
   {
-    id: '24-boxed-cupcakes',
-    name: '24 Boxed Cupcakes',
+    id: 'box-24-mini-floral-boxed',
+    name: 'Box of 24 Mini Floral Cupcakes',
     category: 'boxed-cupcakes',
     description: 'Two dozen cupcakes for larger gatherings.',
     basePrice: 85,
     image: '/images/24-mini-floral-cupcakes.jpg',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+  },
+  {
+    id: 'box-12-mini-floral-boxed',
+    name: 'Box of 12 Mini Floral Cupcakes',
+    category: 'boxed-cupcakes',
+    description: 'A delightful dozen of miniature cupcakes, each one a tiny masterpiece of floral design. These petite treats are perfect for sharing at gatherings or as a charming gift. Every cupcake is hand-piped with vibrant flowers, creating a stunning and delicious display. Choice of 1 flavour.',
+    basePrice: 30,
+    image: '/images/mini-box-12.jpg',
+    flavors: ['Vanilla', 'Chocolate'],
+  },
+  {
+    id: '24-boxed-cupcakes',
+    name: 'Box of 24 Mini Floral Cupcakes',
+    category: 'mini-cupcakes',
+    description: 'Two dozen cupcakes for larger gatherings.',
+    basePrice: 85,
+    image: '/images/24-mini-floral-cupcakes.jpg',
+    flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+  },
+  {
+    id: '12-mini-floral-cupcakes-box',
+    name: 'Box of 12 Mini Floral Cupcakes',
+    category: 'mini-cupcakes',
+    description: 'A delightful dozen of miniature cupcakes, each one a tiny masterpiece of floral design. These petite treats are perfect for sharing at gatherings or as a charming gift. Every cupcake is hand-piped with vibrant flowers, creating a stunning and delicious display. Choice of 1 flavour.',
+    basePrice: 30,
+    image: '/images/mini-box-12.jpg',
+    flavors: ['Vanilla', 'Chocolate'],
   },
 
   // Cakes
@@ -126,6 +166,26 @@ export const products: Product[] = [
     image: '/images/heart-shaped-vintage-cake.jpg',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
   },
+  {
+    id: '8-inch-vintage-cake',
+    name: '8 Inch Vintage Cake',
+    category: 'cakes',
+    description: '4 layers of cake',
+    basePrice: 145,
+    image: '/images/vintagecake2.jpeg',
+    flavors: ['Carrot', 'Chocolate', 'Lemon', 'Red Velvet', 'Vanilla'],
+  },
+
+  // Cake Pops
+  {
+    id: 'a-dozen-cake-pops',
+    name: 'A Dozen Cake Pops',
+    category: 'cake-pops',
+    description: 'A dozen delicious cake pops. Each pop is moist, flavourful, and beautifully decorated — ideal for parties, gifts, or a sweet personal treat.',
+    basePrice: 36,
+    image: '/images/dozencakepops.jpeg',
+    flavors: ['Lemon', 'Vanilla'],
+  },
 
 ];
 
@@ -133,6 +193,7 @@ export const categories = [
   { id: 'all', name: 'All Products' },
   { id: 'bouquets', name: 'Bouquets' },
   { id: 'boxed-cupcakes', name: 'Boxed Cupcakes' },
+  { id: 'mini-cupcakes', name: 'Mini Cupcakes' },
   { id: 'cakes', name: 'Cakes' },
   { id: 'cake-pops', name: 'Cake Pops' },
 ];
