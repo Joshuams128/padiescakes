@@ -12,11 +12,15 @@ export interface CartItem {
   price: number;
   image: string;
   notes?: string;
+  color?: string;
+  size?: number;
+  filling?: string;
 }
 
 interface CartContextType {
   items: CartItem[];
   addItem: (item: CartItem) => void;
+  updateItem: (id: string, item: CartItem) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -72,6 +76,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const updateItem = (id: string, item: CartItem) => {
+    setItems((prevItems) =>
+      prevItems.map((i) => (i.id === id ? item : i))
+    );
+  };
+
   const removeItem = (id: string) => {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
@@ -105,6 +115,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         items,
         addItem,
+        updateItem,
         removeItem,
         updateQuantity,
         clearCart,

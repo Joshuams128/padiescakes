@@ -82,7 +82,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-300 mt-8 pt-8 text-center text-gray-600 text-sm">
-          <p>&copy; 2024 Padiescakes. All rights reserved.</p>
+          <p>&copy; 2021 Padiescakes. All rights reserved.</p>
         </div>
       </div>
     </footer>

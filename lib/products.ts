@@ -1,12 +1,16 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'bouquets' | 'boxed-cupcakes' | 'mini-cupcakes' | 'cakes' | 'cake-pops';
+  category: 'bouquets' | 'boxed-cupcakes' | 'mini-cupcakes' | 'cakes' | 'party-favours';
   description: string;
   basePrice: number;
   image: string;
+  secondaryImage?: string;
   flavors: string[];
+  colors?: string[];
+  dietaryPrices?: Record<string, number>;
   maxFlavors?: number;
+  minOrder?: number;
   sizes?: {
     name: string;
     pieces: number;
@@ -17,11 +21,17 @@ export interface Product {
 
 export const flavors = ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'];
 
+export const cakeFillings = [
+  { id: 'vanilla-buttercream', name: 'Vanilla Buttercream', price: 0 },
+  { id: 'cream-cheese', name: 'Cream Cheese', price: 3 },
+  { id: 'chocolate-ganache', name: 'Chocolate Ganache', price: 3 },
+  { id: 'biscoff', name: 'Biscoff', price: 5 },
+];
+
 export const dietaryAddons = [
   { id: 'gluten-free', name: 'Gluten-Free', price: 5 },
   { id: 'vegan', name: 'Vegan', price: 8 },
-  { id: 'sugar-free', name: 'Sugar-Free', price: 6 },
-  { id: 'dairy-free', name: 'Dairy-Free', price: 7 },
+  { id: 'dairy-free', name: 'Dairy-Free', price: 3 },
 ];
 
 export const products: Product[] = [
@@ -31,23 +41,50 @@ export const products: Product[] = [
     name: '14 Mini Cupcake Bouquet on a Cake Board',
     category: 'mini-cupcakes',
     description: 'A charming display of 14 mini cupcakes elegantly arranged on a cake board. Each mini cupcake is a delightful treat, hand-piped with buttercream flowers. Perfect for intimate gatherings or as a stunning table centerpiece.',
-    basePrice: 55,
+    basePrice: 50,
     image: '/images/14MiniCupcake.jpeg',
     flavors: ['Vanilla', 'Chocolate'],
     sizes: [
-      { name: 'Small', pieces: 14, price: 55, serves: '8-14 people' },
+      { name: 'Small', pieces: 14, price: 50, serves: '8-14 people' },
     ],
   },
   {
     id: '7-cupcake-bouquet',
     name: '7-Cupcake Bouquet',
     category: 'bouquets',
-    description: 'A charming arrangement of seven beautifully floral decorated cupcakes, perfect for a small gesture of love. Each cupcake is hand-piped with delicate, blooming flowers, making it an ideal gift for a thank you or a sweet surprise. Comes elegantly wrapped with a beautiful bow and in our premium packaging.\n\nChoice of 1 flavour.\nThe pictures shown are examples.\nYou can share with us the colours & design you want during checkout.\n\nWe can also do these as Vegan, Gluten Free and / or Dairy Free for an extra cost.',
+    description: 'A charming arrangement of seven hand-piped floral cupcakes, elegantly wrapped with a bow. Choice of one flavour, with vegan, gluten free, and dairy free options available for an extra cost.',
     basePrice: 65,
-    image: '/images/7-cupcake-bouquet.jpg',
+    image: '/images/7-bouquet.png',
     flavors: ['Lemon', 'Vanilla', 'Chocolate', 'Strawberry'],
     sizes: [
       { name: 'Small', pieces: 7, price: 65, serves: '5-7 people' },
+    ],
+  },
+  {
+    id: 'all-my-love',
+    name: 'All My Love',
+    category: 'bouquets',
+    description: 'A romantic arrangement of seven hand-piped floral cupcakes in your choice of pink or red, elegantly wrapped with a bow. Perfect for anniversaries, Valentine\'s Day, or showing someone special how much you care.',
+    basePrice: 65,
+    image: '/images/7-cupcake-bouquet.jpg',
+    secondaryImage: '/images/allmylove-2.JPG',
+    flavors: ['Vanilla', 'Chocolate', 'Strawberry', 'Lemon'],
+    colors: ['Pink', 'Red'],
+    sizes: [
+      { name: 'Small', pieces: 7, price: 65, serves: '5-7 people' },
+    ],
+  },
+  {
+    id: '12-cupcake-bouquet',
+    name: '12-Cupcake Bouquet',
+    category: 'bouquets',
+    description: 'A beautiful bouquet of twelve hand-piped floral cupcakes, elegantly arranged and wrapped with a bow. Choice of up to 2 flavours, with vegan, gluten free, and dairy free options available for an extra cost.',
+    basePrice: 95,
+    image: '/images/12cupcakebouquet.png',
+    flavors: ['Lemon', 'Vanilla', 'Chocolate', 'Strawberry'],
+    maxFlavors: 2,
+    sizes: [
+      { name: 'Standard', pieces: 12, price: 95, serves: '10-12 people' },
     ],
   },
   {
@@ -71,6 +108,7 @@ export const products: Product[] = [
     basePrice: 350,
     image: '/images/44-Cupcake-Bouquet-scaled.jpg',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+    dietaryPrices: { 'gluten-free': 20, 'dairy-free': 20 },
     maxFlavors: 4,
     sizes: [
       { name: 'Large', pieces: 44, price: 350, serves: '35-44 people' },
@@ -81,12 +119,13 @@ export const products: Product[] = [
     name: '86-Cupcake Bouquet',
     category: 'bouquets',
     description: 'A bouquet of 86 floral-designed cupcakes.',
-    basePrice: 850,
+    basePrice: 750,
     image: '/images/86cupcakes.png',
-    flavors: ['Chocolate', 'Lemon', 'Strawberry', 'Vanilla'],
+    flavors: ['Chocolate', 'Confetti', 'Lemon', 'Strawberry', 'Vanilla'],
+    dietaryPrices: { 'gluten-free': 30, 'dairy-free': 30 },
     maxFlavors: 4,
     sizes: [
-      { name: 'Extra Large', pieces: 86, price: 850, serves: '70-86 people' },
+      { name: 'Extra Large', pieces: 86, price: 750, serves: '70-86 people' },
     ],
   },
 
@@ -98,6 +137,7 @@ export const products: Product[] = [
     description: 'Twelve hand-decorated floral cupcakes, each topped with intricate buttercream flowers, beautifully presented in a clear-window gift box. Choose up to 2 flavours and customise your colours and design at checkout. Available in Vegan, Gluten Free, and/or Dairy Free options for an additional cost.',
     basePrice: 60,
     image: '/images/12-Floral-Cupcakes-scaled.jpg',
+    secondaryImage: '/images/12-cupcakes-box.png',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
     maxFlavors: 2,
   },
@@ -108,6 +148,7 @@ export const products: Product[] = [
     description: 'A delightful assortment of six intricately decorated floral cupcakes. Each cupcake is a work of art, hand-piped with buttercream flowers in vibrant colors. This box is perfect for small gatherings or as a thoughtful gift to brighten someone\'s day.\n\nChoice of up to 1 flavour.\nThe picture shown is an example.\nYou can share with us the colours & design you want during checkout.',
     basePrice: 30,
     image: '/images/6floralcucpakes-scaled.jpg',
+    secondaryImage: '/images/floralcupcakes-6.jpg',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
   },
   {
@@ -123,10 +164,11 @@ export const products: Product[] = [
     id: 'box-24-mini-floral-boxed',
     name: 'Box of 24 Mini Floral Cupcakes',
     category: 'boxed-cupcakes',
-    description: 'Two dozen cupcakes for larger gatherings.',
-    basePrice: 85,
+    description: 'Two dozen hand-piped mini floral cupcakes, perfect for larger gatherings. Choice of two flavours: vanilla, chocolate, lemon, or strawberry.',
+    basePrice: 55,
     image: '/images/24-mini-floral-cupcakes.jpg',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+    maxFlavors: 2,
   },
   {
     id: 'box-12-mini-floral-boxed',
@@ -141,10 +183,11 @@ export const products: Product[] = [
     id: '24-boxed-cupcakes',
     name: 'Box of 24 Mini Floral Cupcakes',
     category: 'mini-cupcakes',
-    description: 'Two dozen cupcakes for larger gatherings.',
-    basePrice: 85,
+    description: 'Two dozen hand-piped mini floral cupcakes, perfect for larger gatherings. Choice of two flavours: vanilla, chocolate, lemon, or strawberry.',
+    basePrice: 55,
     image: '/images/24-mini-floral-cupcakes.jpg',
     flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+    maxFlavors: 2,
   },
   {
     id: '12-mini-floral-cupcakes-box',
@@ -161,14 +204,18 @@ export const products: Product[] = [
     id: 'heart-shaped-vintage-cake',
     name: 'Heart Shaped Vintage Cake',
     category: 'cakes',
-    description: 'A 6-inch heart-shaped vintage cake with moist cake layers that features delicate, rich layers of cake that are soft and flavourful.',
-    basePrice: 55,
+    description: 'A heart-shaped vintage cake with moist cake layers that features delicate, rich layers of cake that are soft and flavourful.',
+    basePrice: 100,
     image: '/images/heart-shaped-vintage-cake.jpg',
-    flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+    flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry', 'Carrot', 'Red Velvet'],
+    sizes: [
+      { name: '6 Inch', pieces: 1, price: 100, serves: '4-6 people' },
+      { name: '9 Inch', pieces: 1, price: 140, serves: '8-10 people' },
+    ],
   },
   {
     id: '8-inch-vintage-cake',
-    name: '8 Inch Vintage Cake',
+    name: '8 Inch Cake',
     category: 'cakes',
     description: '4 layers of cake',
     basePrice: 145,
@@ -180,11 +227,23 @@ export const products: Product[] = [
   {
     id: 'a-dozen-cake-pops',
     name: 'A Dozen Cake Pops',
-    category: 'cake-pops',
+    category: 'party-favours',
     description: 'A dozen delicious cake pops. Each pop is moist, flavourful, and beautifully decorated — ideal for parties, gifts, or a sweet personal treat.',
     basePrice: 36,
     image: '/images/dozencakepops.jpeg',
     flavors: ['Lemon', 'Vanilla'],
+  },
+
+  // Party/Wedding Favours
+  {
+    id: 'party-wedding-favours',
+    name: 'Party/Wedding Favours',
+    category: 'party-favours',
+    description: 'A single cupcake perfect for party and wedding favours. Minimum order of 10 required.',
+    basePrice: 6,
+    image: '/images/single-cupcake.JPG',
+    flavors: ['Vanilla', 'Chocolate', 'Lemon', 'Strawberry'],
+    minOrder: 10,
   },
 
 ];
@@ -195,5 +254,5 @@ export const categories = [
   { id: 'boxed-cupcakes', name: 'Boxed Cupcakes' },
   { id: 'mini-cupcakes', name: 'Mini Cupcakes' },
   { id: 'cakes', name: 'Cakes' },
-  { id: 'cake-pops', name: 'Cake Pops' },
+  { id: 'party-favours', name: 'Party Favours' },
 ];

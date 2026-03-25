@@ -159,20 +159,6 @@ export default function ContactPage() {
                     <p className="text-gray-600">(+1) 905 706 6953</p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
-                    <p className="text-gray-600">123 Sweet Street</p>
-                    <p className="text-gray-600">Bakery District, CA 90210</p>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -190,7 +176,7 @@ export default function ContactPage() {
                 How far in advance should I order?
               </h3>
               <p className="text-gray-600 text-sm">
-                We recommend placing orders at least 48 hours in advance. For large events or
+                We recommend placing orders at least a week in advance. For large events or
                 weddings, please contact us 2-4 weeks ahead.
               </p>
             </div>
@@ -199,8 +185,7 @@ export default function ContactPage() {
                 Do you offer delivery?
               </h3>
               <p className="text-gray-600 text-sm">
-                Yes! We offer same-day delivery within our service area. Delivery fees vary based
-                on location.
+                Delivery is available upon request and for a fee based on location.
               </p>
             </div>
             <div>
@@ -217,7 +202,7 @@ export default function ContactPage() {
                 Do you accommodate dietary restrictions?
               </h3>
               <p className="text-gray-600 text-sm">
-                Yes, we offer gluten-free, vegan, sugar-free, and dairy-free options. Just let us
+                Yes, we offer gluten-free, vegan, and dairy-free options. Just let us
                 know your requirements when ordering.
               </p>
             </div>

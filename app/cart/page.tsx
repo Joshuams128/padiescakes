@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { dietaryAddons } from '@/lib/products';
+import { dietaryAddons, products, cakeFillings } from '@/lib/products';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotalPrice, getTotalItems } = useCart();
@@ -12,12 +12,12 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="py-16">
-        <div className="container-custom text-center">
+      <div className="py-12 md:py-16">
+        <div className="container-custom text-center px-4 md:px-6">
           <div className="max-w-md mx-auto">
             <div className="mb-6">
               <svg
-                className="w-24 h-24 mx-auto text-gray-300"
+                className="w-20 md:w-24 h-20 md:h-24 mx-auto text-gray-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -44,9 +44,9 @@ export default function CartPage() {
   }
 
   return (
-    <div className="py-12">
-      <div className="container-custom">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+    <div className="py-8 md:py-12">
+      <div className="container-custom px-4 md:px-6">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-6 md:mb-8">Shopping Cart</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Cart Items */}
@@ -56,15 +56,18 @@ export default function CartPage() {
                 const dietaryNames = item.dietaryOptions
                   .map((id) => dietaryAddons.find((a) => a.id === id)?.name)
                   .filter(Boolean);
+                const product = products.find((p) => p.id === item.productId);
+                const sizeName = item.size !== undefined && product?.sizes ? product.sizes[item.size]?.name : null;
+                const fillingName = item.filling ? cakeFillings.find((f) => f.id === item.filling)?.name : null;
 
                 return (
                   <div
                     key={item.id}
-                    className="bg-white rounded-lg shadow-md p-6 flex gap-6"
+                    className="bg-white rounded-lg shadow-md p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6"
                   >
                     {/* Product Image */}
-                    <div className="w-24 h-24 bg-gray-100 rounded-lg flex-shrink-0 relative">
-                      <Image 
+                    <div className="w-20 h-20 md:w-24 md:h-24 bg-gray-100 rounded-lg flex-shrink-0 relative mx-auto md:mx-0">
+                      <Image
                         src={item.image}
                         alt={item.name}
                         fill
@@ -73,7 +76,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Product Details */}
-                    <div className="flex-1">
+                    <div className="flex-1 text-center md:text-left">
                       <h3 className="text-lg font-bold text-gray-900 mb-2">
                         {item.name}
                       </h3>
@@ -81,6 +84,21 @@ export default function CartPage() {
                         <p>
                           <span className="font-semibold">Flavor:</span> {item.flavor}
                         </p>
+                        {sizeName && (
+                          <p>
+                            <span className="font-semibold">Size:</span> {sizeName}
+                          </p>
+                        )}
+                        {fillingName && (
+                          <p>
+                            <span className="font-semibold">Filling:</span> {fillingName}
+                          </p>
+                        )}
+                        {item.color && (
+                          <p>
+                            <span className="font-semibold">Colour:</span> {item.color}
+                          </p>
+                        )}
                         {dietaryNames.length > 0 && (
                           <p>
                             <span className="font-semibold">Dietary Options:</span>{' '}
@@ -96,7 +114,7 @@ export default function CartPage() {
                       </div>
 
                       {/* Quantity Controls */}
-                      <div className="mt-4 flex items-center gap-4">
+                      <div className="mt-4 flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -115,6 +133,13 @@ export default function CartPage() {
                           </button>
                         </div>
 
+                        <Link
+                          href={`/product/${item.productId}?edit=${encodeURIComponent(item.id)}`}
+                          className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                        >
+                          Edit
+                        </Link>
+
                         <button
                           onClick={() => removeItem(item.id)}
                           className="text-red-600 hover:text-red-700 font-semibold text-sm"
@@ -125,7 +150,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Price */}
-                    <div className="text-right">
+                    <div className="text-center md:text-right md:flex-shrink-0">
                       <p className="text-xl font-bold text-gray-900">
                         ${(item.price * item.quantity).toFixed(2)}
                       </p>
@@ -141,7 +166,7 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
+            <div className="bg-white rounded-lg shadow-md p-4 md:p-6 md:sticky md:top-4">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
 
               {/* Order Items List */}
@@ -150,6 +175,9 @@ export default function CartPage() {
                   const dietaryNames = item.dietaryOptions
                     .map((id) => dietaryAddons.find((a) => a.id === id)?.name)
                     .filter(Boolean);
+                  const product = products.find((p) => p.id === item.productId);
+                  const sizeName = item.size !== undefined && product?.sizes ? product.sizes[item.size]?.name : null;
+                  const fillingName = item.filling ? cakeFillings.find((f) => f.id === item.filling)?.name : null;
 
                   return (
                     <div key={item.id} className="flex gap-3">
@@ -167,6 +195,15 @@ export default function CartPage() {
                       <div className="flex-1 text-sm">
                         <p className="font-semibold text-gray-900 line-clamp-1">{item.name}</p>
                         <p className="text-xs text-gray-600">Flavor: {item.flavor}</p>
+                        {sizeName && (
+                          <p className="text-xs text-gray-600">Size: {sizeName}</p>
+                        )}
+                        {fillingName && (
+                          <p className="text-xs text-gray-600">Filling: {fillingName}</p>
+                        )}
+                        {item.color && (
+                          <p className="text-xs text-gray-600">Colour: {item.color}</p>
+                        )}
                         {dietaryNames.length > 0 && (
                           <p className="text-xs text-gray-600">{dietaryNames.join(', ')}</p>
                         )}

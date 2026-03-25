@@ -3,11 +3,24 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { products, categories } from '@/lib/products';
 
 export default function ShopPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const initialCategory = searchParams.get('category') || 'all';
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    const params = new URLSearchParams();
+    if (categoryId !== 'all') {
+      params.set('category', categoryId);
+    }
+    router.replace(`/shop${params.toString() ? `?${params.toString()}` : ''}`, { scroll: false });
+  };
 
   const filteredProducts =
     selectedCategory === 'all'
@@ -30,7 +43,7 @@ export default function ShopPage() {
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
               className={`px-6 py-2 rounded-full font-semibold transition-all ${
                 selectedCategory === category.id
                   ? 'bg-gray-900 text-white shadow-md'

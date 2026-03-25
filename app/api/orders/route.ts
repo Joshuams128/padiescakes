@@ -42,6 +42,9 @@ export async function POST(req: Request) {
               <p>
                 <strong>${item.name}</strong><br/>
                 Flavor: ${item.flavor}<br/>
+                ${item.size ? `Size: ${item.size}<br/>` : ''}
+                ${item.filling ? `Filling: ${item.filling}<br/>` : ''}
+                ${item.color ? `Colour: ${item.color}<br/>` : ''}
                 ${item.dietaryOptions?.length > 0 ? `Dietary Options: ${item.dietaryOptions.join(', ')}<br/>` : ''}
                 ${item.notes ? `Special Instructions: ${item.notes}<br/>` : ''}
                 Quantity: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}
@@ -73,6 +76,9 @@ export async function POST(req: Request) {
               <p>
                 <strong>${item.name}</strong><br/>
                 Flavor: ${item.flavor}<br/>
+                ${item.size ? `Size: ${item.size}<br/>` : ''}
+                ${item.filling ? `Filling: ${item.filling}<br/>` : ''}
+                ${item.color ? `Colour: ${item.color}<br/>` : ''}
                 ${item.dietaryOptions?.length > 0 ? `Dietary Options: ${item.dietaryOptions.join(', ')}<br/>` : ''}
                 ${item.notes ? `Special Instructions: ${item.notes}<br/>` : ''}
                 Quantity: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}
@@ -83,10 +89,9 @@ export async function POST(req: Request) {
             <p><strong>Address:</strong> ${order.address}</p>
             <p><strong>Date Needed:</strong> ${order.dateNeeded}</p>
             <div style="background-color: #dcfce7; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin: 20px 0;">
-              <h3 style="color: #065f46; margin-top: 0;">💳 Payment Instructions</h3>
-              <p style="margin: 5px 0;">Please send an e-transfer for <strong style="color: #1f2937;">$${order.total.toFixed(2)}</strong> to:</p>
-              <p style="margin: 5px 0; font-size: 1.2em;"><strong>padiescakes@gmail.com</strong></p>
-              <p style="margin: 5px 0;"><strong>Reference:</strong> Order #${orderNumber}</p>
+              <h3 style="color: #065f46; margin-top: 0;">💳 Payment</h3>
+              <p style="margin: 5px 0;">Your order total is <strong style="color: #1f2937;">$${order.total.toFixed(2)}</strong>.</p>
+              <p style="margin: 5px 0;">We'll contact you via email with payment instructions.</p>
             </div>
             <div style="background-color: #e0f2fe; border-left: 4px solid #0284c7; padding: 15px; border-radius: 4px; margin-top: 20px;">
               <p style="margin: 0;"><strong>📞 Next Steps:</strong> We'll contact you within 24 hours to confirm your order details and finalize delivery arrangements.</p>

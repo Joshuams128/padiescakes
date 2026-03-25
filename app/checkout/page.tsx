@@ -5,7 +5,7 @@ import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { dietaryAddons } from '@/lib/products';
+import { dietaryAddons, products, cakeFillings } from '@/lib/products';
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart();
@@ -15,6 +15,7 @@ export default function CheckoutPage() {
     name: '',
     email: '',
     phone: '',
+    fulfillment: 'pickup' as 'pickup' | 'delivery',
     deliveryAddress: '',
     dateNeeded: '',
     specialNotes: '',
@@ -25,9 +26,9 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="py-16">
-        <div className="container-custom text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
+      <div className="py-12 md:py-16">
+        <div className="container-custom text-center px-4 md:px-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
           <p className="text-gray-600 mb-8">
             Add some items before checking out.
           </p>
@@ -67,12 +68,18 @@ export default function CheckoutPage() {
       newErrors.phone = 'Phone number is required';
     }
 
-    if (!formData.deliveryAddress.trim()) {
+    if (formData.fulfillment === 'delivery' && !formData.deliveryAddress.trim()) {
       newErrors.deliveryAddress = 'Delivery address is required';
     }
 
     if (!formData.dateNeeded) {
       newErrors.dateNeeded = 'Date needed is required';
+    } else {
+      const minDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      minDate.setHours(0, 0, 0, 0);
+      if (new Date(formData.dateNeeded) < minDate) {
+        newErrors.dateNeeded = 'Date must be at least 1 week from today';
+      }
     }
 
     setErrors(newErrors);
@@ -93,17 +100,26 @@ export default function CheckoutPage() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        address: formData.deliveryAddress,
+        fulfillment: formData.fulfillment,
+        address: formData.fulfillment === 'delivery' ? formData.deliveryAddress : 'Pickup',
         dateNeeded: formData.dateNeeded,
         notes: formData.specialNotes,
-        items: items.map(item => ({
-          name: item.name,
-          flavor: item.flavor,
-          dietaryOptions: item.dietaryOptions,
-          notes: item.notes,
-          quantity: item.quantity,
-          price: item.price
-        })),
+        items: items.map(item => {
+          const product = products.find(p => p.id === item.productId);
+          const sizeName = item.size !== undefined && product?.sizes ? product.sizes[item.size]?.name : null;
+          const fillingName = item.filling ? cakeFillings.find(f => f.id === item.filling)?.name : null;
+          return {
+            name: item.name,
+            flavor: item.flavor,
+            color: item.color,
+            size: sizeName,
+            filling: fillingName,
+            dietaryOptions: item.dietaryOptions,
+            notes: item.notes,
+            quantity: item.quantity,
+            price: item.price
+          };
+        }),
         total: getTotalPrice()
       };
 
@@ -136,16 +152,16 @@ export default function CheckoutPage() {
   const total = getTotalPrice();
 
   return (
-    <div className="py-12">
-      <div className="container-custom">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Checkout</h1>
+    <div className="py-8 md:py-12">
+      <div className="container-custom px-4 md:px-6">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-6 md:mb-8">Checkout</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 md:p-8">
+            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-4 md:p-6 lg:p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Contact & Delivery Information
+                Contact & Order Information
               </h2>
 
               <div className="space-y-6">
@@ -218,26 +234,83 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
-                {/* Delivery Address */}
+                {/* Fulfillment Method */}
                 <div>
-                  <label htmlFor="deliveryAddress" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Delivery Address <span className="text-red-500">*</span>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Fulfillment Method <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
-                    id="deliveryAddress"
-                    name="deliveryAddress"
-                    value={formData.deliveryAddress}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
-                      errors.deliveryAddress
-                        ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-200 focus:border-gray-400'
-                    }`}
-                    placeholder="123 Main St, City, Province, Postal Code"
-                  />
-                  {errors.deliveryAddress && (
-                    <p className="mt-1 text-sm text-red-600">{errors.deliveryAddress}</p>
+                  <div className="flex gap-4">
+                    <label
+                      className={`flex-1 flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                        formData.fulfillment === 'pickup'
+                          ? 'border-gray-900 bg-gray-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="fulfillment"
+                        value="pickup"
+                        checked={formData.fulfillment === 'pickup'}
+                        onChange={handleChange}
+                        className="w-5 h-5 text-gray-900 border-gray-300 focus:ring-gray-500"
+                      />
+                      <span className="font-semibold text-gray-900">Pickup</span>
+                    </label>
+                    <label
+                      className={`flex-1 flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                        formData.fulfillment === 'delivery'
+                          ? 'border-gray-900 bg-gray-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="fulfillment"
+                        value="delivery"
+                        checked={formData.fulfillment === 'delivery'}
+                        onChange={handleChange}
+                        className="w-5 h-5 text-gray-900 border-gray-300 focus:ring-gray-500"
+                      />
+                      <span className="font-semibold text-gray-900">Delivery</span>
+                    </label>
+                  </div>
+
+                  {/* Pickup Info */}
+                  {formData.fulfillment === 'pickup' && (
+                    <div className="mt-3 p-4 bg-blue-50 rounded-lg">
+                      <p className="text-sm text-gray-700">
+                        You will receive the pickup location details via email after your order is confirmed.
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Delivery Address */}
+                  {formData.fulfillment === 'delivery' && (
+                    <div className="mt-3">
+                      <label htmlFor="deliveryAddress" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Delivery Address (GTA) <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="deliveryAddress"
+                        name="deliveryAddress"
+                        value={formData.deliveryAddress}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
+                          errors.deliveryAddress
+                            ? 'border-red-500 focus:border-red-600'
+                            : 'border-gray-200 focus:border-gray-400'
+                        }`}
+                        placeholder="123 Main St, City, Durham Region, Postal Code"
+                      />
+                      {errors.deliveryAddress && (
+                        <p className="mt-1 text-sm text-red-600">{errors.deliveryAddress}</p>
+                      )}
+                      <p className="mt-1 text-sm text-gray-500">
+                        Delivery within the GTA. Additional charges will apply.
+                      </p>
+                    </div>
                   )}
                 </div>
 
@@ -252,7 +325,7 @@ export default function CheckoutPage() {
                     name="dateNeeded"
                     value={formData.dateNeeded}
                     onChange={handleChange}
-                    min={new Date().toISOString().split('T')[0]}
+                    min={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.dateNeeded
                         ? 'border-red-500 focus:border-red-600'
@@ -263,7 +336,7 @@ export default function CheckoutPage() {
                     <p className="mt-1 text-sm text-red-600">{errors.dateNeeded}</p>
                   )}
                   <p className="mt-1 text-sm text-gray-500">
-                    Please order at least 3 days in advance for custom orders
+                    Orders must be placed at least 1 week in advance
                   </p>
                 </div>
 
@@ -302,7 +375,7 @@ export default function CheckoutPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
+            <div className="bg-white rounded-lg shadow-md p-4 md:p-6 md:sticky md:top-4">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
 
               <div className="space-y-4 mb-6">
@@ -310,10 +383,13 @@ export default function CheckoutPage() {
                   const dietaryNames = item.dietaryOptions
                     .map((id) => dietaryAddons.find((a) => a.id === id)?.name)
                     .filter(Boolean);
+                  const product = products.find((p) => p.id === item.productId);
+                  const sizeName = item.size !== undefined && product?.sizes ? product.sizes[item.size]?.name : null;
+                  const fillingName = item.filling ? cakeFillings.find((f) => f.id === item.filling)?.name : null;
 
                   return (
                     <div key={item.id} className="flex gap-3 pb-4 border-b border-gray-200">
-                      <div className="w-16 h-16 bg-white rounded flex-shrink-0 relative">
+                      <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded flex-shrink-0 relative">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -324,6 +400,15 @@ export default function CheckoutPage() {
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900 text-sm">{item.name}</h3>
                         <p className="text-xs text-gray-600">Flavor: {item.flavor}</p>
+                        {sizeName && (
+                          <p className="text-xs text-gray-600">Size: {sizeName}</p>
+                        )}
+                        {fillingName && (
+                          <p className="text-xs text-gray-600">Filling: {fillingName}</p>
+                        )}
+                        {item.color && (
+                          <p className="text-xs text-gray-600">Colour: {item.color}</p>
+                        )}
                         {dietaryNames.length > 0 && (
                           <p className="text-xs text-gray-600">{dietaryNames.join(', ')}</p>
                         )}
@@ -363,7 +448,7 @@ export default function CheckoutPage() {
 
               <div className="mt-6 p-4 bg-blue-50 rounded-lg">
                 <p className="text-sm text-gray-700">
-                  <strong>Payment:</strong> E-transfer instructions will be provided after order confirmation.
+                  <strong>Payment:</strong> We'll contact you via email with payment instructions after your order is confirmed.
                 </p>
               </div>
             </div>
