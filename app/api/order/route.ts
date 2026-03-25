@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
 
     // Send email to business owner
     await resend.emails.send({
-      from: "Padie's Cakes <orders@padiescakes.ca>",
+      from: "Padie's Cakes <info@padiescakes.ca>",
       to: 'joshuams128@gmail.com',
       subject: `New Order #${orderNumber} - $${total.toFixed(2)}`,
       html: ownerEmailHtml,
@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email to customer
     await resend.emails.send({
-      from: "Padie's Cakes <orders@padiescakes.ca>",
+      from: "Padie's Cakes <info@padiescakes.ca>",
       to: customer.email,
       subject: `Order Confirmation #${orderNumber} - Padiescakes`,
       html: customerEmailHtml,
