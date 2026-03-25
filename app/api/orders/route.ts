@@ -19,8 +19,8 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-      from: "Padie's Cakes <onboarding@resend.dev>",
-      to: 'joshuams128@gmail.com',
+      from: "Padie's Cakes <info@padiescakes.ca>",
+      to: 'padiescakes@gmail.com',
       subject: `New Order #${orderNumber} from ${order.name} - $${order.total.toFixed(2)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
 
     // Send confirmation email to customer
     await resend.emails.send({
-      from: "Padie's Cakes <onboarding@resend.dev>",
+      from: "Padie's Cakes <info@padiescakes.ca>",
       to: order.email,
       subject: `Order Confirmation #${orderNumber} - Padie's Cakes`,
       html: `
