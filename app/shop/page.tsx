@@ -33,8 +33,8 @@ export default function ShopPage() {
               onClick={() => setSelectedCategory(category.id)}
               className={`px-6 py-2 rounded-full font-semibold transition-all ${
                 selectedCategory === category.id
-                  ? 'bg-primary-600 text-white shadow-md'
-                  : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-primary-400'
+                  ? 'bg-gray-900 text-white shadow-md'
+                  : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-gray-400'
               }`}
             >
               {category.name}
@@ -67,14 +67,14 @@ export default function ShopPage() {
 
                   {/* Product Info */}
                   <div className="p-4 flex flex-col flex-grow">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-600 transition-colors line-clamp-2">
                       {product.name}
                     </h3>
                     <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-grow">
                       {product.description}
                     </p>
                     <div className="flex items-center justify-between mt-auto">
-                      <span className="text-xl font-bold text-primary-600">
+                      <span className="text-xl font-bold text-gray-900">
                         ${product.basePrice}
                       </span>
                       <span className="text-sm text-gray-500">
@@ -90,7 +90,7 @@ export default function ShopPage() {
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <Link
                     href={`/product/${product.id}`}
-                    className="pointer-events-auto bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all transform scale-105"
+                    className="pointer-events-auto bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all transform scale-105"
                   >
                     Quick Add
                   </Link>

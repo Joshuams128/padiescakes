@@ -52,13 +52,13 @@ export async function POST(request: NextRequest) {
           <title>New Order - Padiescakes</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">New Order Received!</h1>
           </div>
           
           <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
-            <h2 style="color: #ec4899; margin-top: 0;">Order #${orderNumber}</h2>
+            <h2 style="color: #1f2937; margin-top: 0;">Order #${orderNumber}</h2>
             
             <h3 style="color: #374151; margin-bottom: 10px;">Customer Information</h3>
             <table style="width: 100%; margin-bottom: 20px; background: white; border-radius: 8px; padding: 15px;">
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
               ${itemsList}
               <tr>
                 <td style="padding: 12px; text-align: right;"><strong>Total:</strong></td>
-                <td style="padding: 12px; text-align: right;"><strong style="color: #ec4899; font-size: 1.2em;">$${total.toFixed(2)}</strong></td>
+                <td style="padding: 12px; text-align: right;"><strong style="color: #1f2937; font-size: 1.2em;">$${total.toFixed(2)}</strong></td>
               </tr>
             </table>
             
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
           <title>Order Confirmation - Padiescakes</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">Thank You for Your Order!</h1>
           </div>
@@ -125,14 +125,14 @@ export async function POST(request: NextRequest) {
             <p style="font-size: 1.1em;">Hi ${customer.name},</p>
             <p>We've received your order and we're so excited to create something special for you! 🎉</p>
             
-            <h2 style="color: #ec4899; margin-top: 20px;">Order #${orderNumber}</h2>
+            <h2 style="color: #1f2937; margin-top: 20px;">Order #${orderNumber}</h2>
             
             <h3 style="color: #374151; margin-bottom: 10px;">Order Summary</h3>
             <table style="width: 100%; margin-bottom: 20px; background: white; border-radius: 8px; border-collapse: collapse;">
               ${itemsList}
               <tr>
                 <td style="padding: 12px; text-align: right;"><strong>Total:</strong></td>
-                <td style="padding: 12px; text-align: right;"><strong style="color: #ec4899; font-size: 1.2em;">$${total.toFixed(2)}</strong></td>
+                <td style="padding: 12px; text-align: right;"><strong style="color: #1f2937; font-size: 1.2em;">$${total.toFixed(2)}</strong></td>
               </tr>
             </table>
             
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
             
             <div style="background-color: #dcfce7; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin: 20px 0;">
               <h3 style="color: #065f46; margin-top: 0;">💳 Payment Instructions</h3>
-              <p style="margin: 5px 0;">Please send an e-transfer for <strong style="color: #ec4899;">$${total.toFixed(2)}</strong> to:</p>
+              <p style="margin: 5px 0;">Please send an e-transfer for <strong style="color: #1f2937;">$${total.toFixed(2)}</strong> to:</p>
               <p style="margin: 5px 0; font-size: 1.2em;"><strong>padiescakes@gmail.com</strong></p>
               <p style="margin: 5px 0;"><strong>Reference:</strong> Order #${orderNumber}</p>
             </div>

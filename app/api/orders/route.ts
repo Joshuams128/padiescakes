@@ -24,12 +24,12 @@ export async function POST(req: Request) {
       subject: `New Order #${orderNumber} from ${order.name} - $${order.total.toFixed(2)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-          <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">New Order Received!</h1>
           </div>
           <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
-            <h2 style="color: #ec4899; margin-top: 0;">Order #${orderNumber}</h2>
+            <h2 style="color: #1f2937; margin-top: 0;">Order #${orderNumber}</h2>
             <h3 style="color: #374151;">Customer Information</h3>
             <p><strong>Name:</strong> ${order.name}</p>
             <p><strong>Email:</strong> ${order.email}</p>
@@ -60,14 +60,14 @@ export async function POST(req: Request) {
       subject: `Order Confirmation #${orderNumber} - Padie's Cakes`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-          <div style="background-color: #ec4899; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+          <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">Thank You for Your Order!</h1>
           </div>
           <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
             <p style="font-size: 1.1em;">Hi ${order.name},</p>
             <p>We've received your order and we're so excited to create something special for you! 🎉</p>
-            <h2 style="color: #ec4899;">Order #${orderNumber}</h2>
+            <h2 style="color: #1f2937;">Order #${orderNumber}</h2>
             <h3 style="color: #374151;">Order Summary</h3>
             ${order.items.map((item: any) => `
               <p>
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
             <p><strong>Date Needed:</strong> ${order.dateNeeded}</p>
             <div style="background-color: #dcfce7; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin: 20px 0;">
               <h3 style="color: #065f46; margin-top: 0;">💳 Payment Instructions</h3>
-              <p style="margin: 5px 0;">Please send an e-transfer for <strong style="color: #ec4899;">$${order.total.toFixed(2)}</strong> to:</p>
+              <p style="margin: 5px 0;">Please send an e-transfer for <strong style="color: #1f2937;">$${order.total.toFixed(2)}</strong> to:</p>
               <p style="margin: 5px 0; font-size: 1.2em;"><strong>padiescakes@gmail.com</strong></p>
               <p style="margin: 5px 0;"><strong>Reference:</strong> Order #${orderNumber}</p>
             </div>

@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #fdf5f8;
-  --color-primary-100: #fbe9f1;
-  --color-primary-200: #f8d4e4;
-  --color-primary-300: #f4bdd6;
-  --color-primary-400: #efa7c8;
-  --color-primary-500: #ea90ba;
-  --color-primary-600: #e57aac;
-  --color-primary-700: #d55f96;
-  --color-primary-800: #b84f7d;
-  --color-primary-900: #993f67;
+  --color-primary-50: #fef8fa;
+  --color-primary-100: #fdf1f5;
+  --color-primary-200: #fae4ec;
+  --color-primary-300: #f6d3e1;
+  --color-primary-400: #f6d3e1;
+  --color-primary-500: #f6d3e1;
+  --color-primary-600: #f6d3e1;
+  --color-primary-700: #eebfd2;
+  --color-primary-800: #e5aac2;
+  --color-primary-900: #d98fb0;
   
   --color-secondary-50: #fefce8;
   --color-secondary-100: #fef9c3;
@@ -32,11 +32,11 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
+    @apply bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
   }
   
   .btn-secondary {
-    @apply bg-white hover:bg-gray-50 text-primary-600 font-semibold py-3 px-6 rounded-lg border-2 border-primary-600 transition-colors duration-200;
+    @apply bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-900 transition-colors duration-200;
   }
   
   .container-custom {

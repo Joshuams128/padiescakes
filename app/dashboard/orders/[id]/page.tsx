@@ -90,7 +90,7 @@ export default function OrderDetailPage() {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4">
         <div className="max-w-xl mx-auto">
-          <Link href="/dashboard" className="text-primary-600 mb-6 inline-block">
+          <Link href="/dashboard" className="text-gray-900 mb-6 inline-block">
             ← Back to Dashboard
           </Link>
           <div className="bg-white rounded-lg shadow-md p-8">
@@ -117,7 +117,7 @@ export default function OrderDetailPage() {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4">
         <div className="max-w-xl mx-auto">
-          <Link href="/dashboard" className="text-primary-600 mb-6 inline-block">
+          <Link href="/dashboard" className="text-gray-900 mb-6 inline-block">
             ← Back to Dashboard
           </Link>
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -131,7 +131,7 @@ export default function OrderDetailPage() {
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <Link href="/dashboard" className="text-primary-600 mb-6 inline-block hover:text-primary-700">
+        <Link href="/dashboard" className="text-gray-900 mb-6 inline-block hover:text-gray-700">
           ← Back to Dashboard
         </Link>
 
@@ -174,7 +174,7 @@ export default function OrderDetailPage() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Email</p>
-                  <a href={`mailto:${order.customerEmail}`} className="text-primary-600 hover:text-primary-700">
+                  <a href={`mailto:${order.customerEmail}`} className="text-gray-900 hover:text-gray-700">
                     {order.customerEmail}
                   </a>
                 </div>
@@ -225,7 +225,7 @@ export default function OrderDetailPage() {
           <div className="border-t pt-6 mb-6">
             <div className="flex justify-between items-center">
               <p className="text-lg font-semibold text-gray-900">Total</p>
-              <p className="text-2xl font-bold text-primary-600">${order.total.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-900">${order.total.toFixed(2)}</p>
             </div>
           </div>
 
@@ -245,7 +245,7 @@ export default function OrderDetailPage() {
             </a>
             <a
               href={`tel:${order.customerPhone}`}
-              className="block w-full text-center py-2 border-2 border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50"
+              className="block w-full text-center py-2 border-2 border-gray-900 text-gray-900 rounded-lg hover:bg-gray-50"
             >
               Call Customer
             </a>

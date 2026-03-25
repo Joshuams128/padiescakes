@@ -8,22 +8,23 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-50 to-secondary-50 py-20">
-        <div className="container-custom">
+      <section className="relative bg-primary-600 py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/40" />
+        <div className="container-custom relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
                 Florals You Can Eat!
 
-                <span className="text-primary-600"> Beautifully Crafted</span>
+                <span className="text-white"> Beautifully Crafted</span>
               </h1>
-              <p className="text-xl text-gray-700 mb-8">
+              <p className="text-xl text-white/90 mb-8">
                 Handcrafted cupcake bouquets and custom cakes for every special occasion.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link href="/shop" className="btn-primary">
                   Shop Now
                 </Link>
-                <Link href="/contact" className="btn-secondary">
+                <Link href="/contact" className="bg-transparent hover:bg-white/10 text-white font-semibold py-3 px-6 rounded-lg border-2 border-white transition-colors duration-200">
                   Custom Orders
                 </Link>
               </div>
@@ -68,9 +69,10 @@ export default function HomePage() {
       </section>
 
       {/* Popular Product */}
-      <section className="py-20 bg-gradient-to-r from-primary-50 to-secondary-50">
-        <div className="container-custom">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">
+      <section className="relative py-20 bg-primary-600 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/40" />
+        <div className="container-custom relative z-10">
+          <h2 className="text-4xl font-bold text-center text-white mb-12">
           Most Popular Choice
           </h2>
           {(() => {
@@ -88,19 +90,19 @@ export default function HomePage() {
                     />
                   </div>
                   <div>
-                    <h2 className="text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-5xl font-bold text-white mb-4">
                       {featuredProduct.name}
                     </h2>
-                    <p className="text-gray-700 mb-6 text-lg leading-relaxed">
+                    <p className="text-white/90 mb-6 text-lg leading-relaxed">
                       {featuredProduct.description}
                     </p>
                     <div className="mb-8">
-                      <p className="text-3xl font-bold text-primary-600 mb-2">
+                      <p className="text-3xl font-bold text-white mb-2">
                         ${featuredProduct.basePrice}
                       </p>
-                      <p className="text-gray-600">Choose up to {featuredProduct.maxFlavors} flavors from our selection</p>
+                      <p className="text-white/70">Choose up to {featuredProduct.maxFlavors} flavors from our selection</p>
                     </div>
-                    <Link href={`/product/${featuredProduct.id}`} className="btn-primary text-lg px-8 py-3">
+                    <Link href={`/product/${featuredProduct.id}`} className="bg-white text-gray-900 hover:bg-white/90 font-semibold text-lg px-8 py-3 rounded-lg transition-colors duration-200">
                       Order Now
                     </Link>
                   </div>

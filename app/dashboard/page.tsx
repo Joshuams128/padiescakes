@@ -119,7 +119,7 @@ export default function DashboardPage() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-primary-400 focus:outline-none"
+                className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-gray-400 focus:outline-none"
                 placeholder="••••••••"
               />
               {authError && <p className="text-red-500 text-sm mt-2">{authError}</p>}
@@ -209,7 +209,7 @@ export default function DashboardPage() {
                       <td className="px-6 py-4 text-sm">
                         <button
                           onClick={() => router.push(`/dashboard/orders/${order._id}`)}
-                          className="text-primary-600 hover:text-primary-700 font-semibold"
+                          className="text-gray-900 hover:text-gray-700 font-semibold"
                         >
                           View
                         </button>

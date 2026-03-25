@@ -163,7 +163,7 @@ export default function CheckoutPage() {
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.name
                         ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-200 focus:border-primary-400'
+                        : 'border-gray-200 focus:border-gray-400'
                     }`}
                     placeholder="John Smith"
                   />
@@ -186,7 +186,7 @@ export default function CheckoutPage() {
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.email
                         ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-200 focus:border-primary-400'
+                        : 'border-gray-200 focus:border-gray-400'
                     }`}
                     placeholder="john@example.com"
                   />
@@ -209,7 +209,7 @@ export default function CheckoutPage() {
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.phone
                         ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-200 focus:border-primary-400'
+                        : 'border-gray-200 focus:border-gray-400'
                     }`}
                     placeholder="(123) 456-7890"
                   />
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.deliveryAddress
                         ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-200 focus:border-primary-400'
+                        : 'border-gray-200 focus:border-gray-400'
                     }`}
                     placeholder="123 Main St, City, Province, Postal Code"
                   />
@@ -256,7 +256,7 @@ export default function CheckoutPage() {
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.dateNeeded
                         ? 'border-red-500 focus:border-red-600'
-                        : 'border-gray-200 focus:border-primary-400'
+                        : 'border-gray-200 focus:border-gray-400'
                     }`}
                   />
                   {errors.dateNeeded && (
@@ -278,7 +278,7 @@ export default function CheckoutPage() {
                     value={formData.specialNotes}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary-400 focus:outline-none resize-none"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gray-400 focus:outline-none resize-none"
                     placeholder="Any special requests, allergies, or custom messages..."
                   />
                 </div>
@@ -357,7 +357,7 @@ export default function CheckoutPage() {
               <div className="border-t pt-4 mt-4">
                 <div className="flex justify-between text-xl font-bold text-gray-900">
                   <span>Total</span>
-                  <span className="text-primary-600">${total.toFixed(2)}</span>
+                  <span className="text-gray-900">${total.toFixed(2)}</span>
                 </div>
               </div>
 

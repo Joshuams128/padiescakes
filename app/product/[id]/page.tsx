@@ -100,11 +100,11 @@ export default function ProductPage() {
       <div className="container-custom">
         {/* Breadcrumb */}
         <div className="mb-8 text-sm text-gray-600">
-          <Link href="/" className="hover:text-primary-600">
+          <Link href="/" className="hover:text-gray-900">
             Home
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/shop" className="hover:text-primary-600">
+          <Link href="/shop" className="hover:text-gray-900">
             Shop
           </Link>
           <span className="mx-2">/</span>
@@ -134,7 +134,7 @@ export default function ProductPage() {
 
             {/* Price */}
             <div className="mb-8">
-              <span className="text-3xl font-bold text-primary-600">
+              <span className="text-3xl font-bold text-gray-900">
                 ${calculateTotalPrice().toFixed(2)}
               </span>
               <span className="text-gray-500 ml-2">
@@ -154,8 +154,8 @@ export default function ProductPage() {
                     onClick={() => toggleFlavor(flavor)}
                     className={`px-6 py-3 rounded-lg font-semibold transition-all ${
                       selectedFlavors.includes(flavor)
-                        ? 'bg-primary-600 text-white shadow-md'
-                        : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-primary-400'
+                        ? 'bg-gray-900 text-white shadow-md'
+                        : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-gray-400'
                     }`}
                   >
                     {flavor}
@@ -183,7 +183,7 @@ export default function ProductPage() {
                         {product.sizes[0].serves}
                       </p>
                     </div>
-                    <p className="text-xl font-bold text-primary-600">
+                    <p className="text-xl font-bold text-gray-900">
                       ${product.sizes[0].price}
                     </p>
                   </div>
@@ -207,13 +207,13 @@ export default function ProductPage() {
                         type="checkbox"
                         checked={selectedAddons.includes(addon.id)}
                         onChange={() => toggleAddon(addon.id)}
-                        className="w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                        className="w-5 h-5 text-gray-900 border-gray-300 rounded focus:ring-gray-500"
                       />
                       <span className="ml-3 text-gray-900 font-medium">
                         {addon.name}
                       </span>
                     </div>
-                    <span className="text-primary-600 font-semibold">
+                    <span className="text-gray-900 font-semibold">
                       +${addon.price}
                     </span>
                   </label>
@@ -231,7 +231,7 @@ export default function ProductPage() {
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Add any special requests, dietary restrictions, or custom messages..."
                 rows={4}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary-400 focus:outline-none resize-none"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gray-400 focus:outline-none resize-none"
               />
               <p className="text-sm text-gray-500 mt-2">
                 Maximum 500 characters
@@ -272,7 +272,7 @@ export default function ProductPage() {
                 disabled={selectedFlavors.length === 0}
                 className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${
                   selectedFlavors.length > 0
-                    ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg'
+                    ? 'bg-gray-900 hover:bg-gray-800 text-white shadow-md hover:shadow-lg'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -282,7 +282,7 @@ export default function ProductPage() {
               </button>
               <button
                 onClick={() => router.push('/cart')}
-                className="w-full mt-3 py-4 rounded-lg font-bold text-lg bg-white border-2 border-primary-600 text-primary-600 hover:bg-primary-50 transition-all"
+                className="w-full mt-3 py-4 rounded-lg font-bold text-lg bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-50 transition-all"
               >
                 View Cart
               </button>
@@ -292,19 +292,19 @@ export default function ProductPage() {
             <div className="mt-8 pt-8 border-t border-gray-200">
               <div className="space-y-3 text-sm text-gray-600">
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Handcrafted with premium ingredients</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Same-day delivery available</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Customization options available</span>
@@ -339,10 +339,10 @@ export default function ProductPage() {
                       </div>
                     </div>
                     <div className="p-4">
-                      <h3 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                      <h3 className="text-sm font-semibold text-gray-900 mb-2 group-hover:text-gray-600 transition-colors">
                         {relatedProduct.name}
                       </h3>
-                      <p className="text-lg font-bold text-primary-600">
+                      <p className="text-lg font-bold text-gray-900">
                         ${relatedProduct.basePrice}
                       </p>
                     </div>

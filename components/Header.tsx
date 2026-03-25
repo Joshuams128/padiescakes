@@ -12,7 +12,7 @@ export default function Header() {
   const cartItemCount = getTotalItems();
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-primary-600 shadow-sm sticky top-0 z-50">
       <nav className="container-custom py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -28,13 +28,13 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/" className="text-gray-800 hover:text-gray-600 transition-colors">
               Home
             </Link>
-            <Link href="/shop" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/shop" className="text-gray-800 hover:text-gray-600 transition-colors">
               Shop
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/contact" className="text-gray-800 hover:text-gray-600 transition-colors">
               Contact
             </Link>
           </div>
@@ -42,9 +42,9 @@ export default function Header() {
           {/* Cart Icon */}
           <div className="flex items-center space-x-4">
             <Link href="/cart" className="relative">
-              <ShoppingCartIcon className="h-6 w-6 text-gray-700 hover:text-primary-600 transition-colors" />
+              <ShoppingCartIcon className="h-6 w-6 text-gray-800 hover:text-gray-600 transition-colors" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-gray-800 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}
@@ -53,7 +53,7 @@ export default function Header() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-gray-700"
+              className="md:hidden text-gray-800"
             >
               {mobileMenuOpen ? (
                 <XMarkIcon className="h-6 w-6" />
@@ -69,21 +69,21 @@ export default function Header() {
           <div className="md:hidden mt-4 pb-4 space-y-4">
             <Link
               href="/"
-              className="block text-gray-700 hover:text-primary-600 transition-colors"
+              className="block text-gray-800 hover:text-gray-600 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link
               href="/shop"
-              className="block text-gray-700 hover:text-primary-600 transition-colors"
+              className="block text-gray-800 hover:text-gray-600 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Shop
             </Link>
             <Link
               href="/contact"
-              className="block text-gray-700 hover:text-primary-600 transition-colors"
+              className="block text-gray-800 hover:text-gray-600 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact

@@ -126,7 +126,7 @@ export default function CartPage() {
 
                     {/* Price */}
                     <div className="text-right">
-                      <p className="text-xl font-bold text-primary-600">
+                      <p className="text-xl font-bold text-gray-900">
                         ${(item.price * item.quantity).toFixed(2)}
                       </p>
                       <p className="text-sm text-gray-500">
@@ -171,7 +171,7 @@ export default function CartPage() {
                           <p className="text-xs text-gray-600">{dietaryNames.join(', ')}</p>
                         )}
                         <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
-                        <p className="font-semibold text-primary-600 mt-1">
+                        <p className="font-semibold text-gray-900 mt-1">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
@@ -194,7 +194,7 @@ export default function CartPage() {
               <div className="border-t pt-4 mb-6">
                 <div className="flex justify-between text-xl font-bold text-gray-900">
                   <span>Subtotal</span>
-                  <span className="text-primary-600">${getTotalPrice().toFixed(2)}</span>
+                  <span className="text-gray-900">${getTotalPrice().toFixed(2)}</span>
                 </div>
               </div>
 
@@ -207,7 +207,7 @@ export default function CartPage() {
 
               <Link
                 href="/shop"
-                className="block w-full text-center py-3 text-primary-600 font-semibold hover:text-primary-700"
+                className="block w-full text-center py-3 text-gray-900 font-semibold hover:text-gray-700"
               >
                 Continue Shopping
               </Link>
