@@ -45,10 +45,11 @@ export default function HomePage() {
               return (
                 <Link key={product.id} href={`/product/${product.id}`} className="group">
                   <div className="relative h-64 rounded-lg overflow-hidden shadow-lg mb-4 bg-gray-100">
-                    <Image 
+                    <Image
                       src={product.image}
                       alt={product.name}
                       fill
+                      priority
                       className="object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>

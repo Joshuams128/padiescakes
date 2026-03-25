@@ -10,12 +10,30 @@ export default function ContactPage() {
     occasion: '',
     message: '',
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would send the form data to a server
-    alert('Thank you for your inquiry! We will get back to you soon.');
-    setFormData({ name: '', email: '', phone: '', occasion: '', message: '' });
+    setSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('Failed to send');
+
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', phone: '', occasion: '', message: '' });
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -125,9 +143,20 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button type="submit" className="btn-primary w-full">
-                Send Message
+              <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-50">
+                {submitting ? 'Sending...' : 'Send Message'}
               </button>
+
+              {submitStatus === 'success' && (
+                <p className="text-green-600 font-semibold text-center mt-3">
+                  Thank you! Your message has been sent. We'll get back to you soon.
+                </p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-600 font-semibold text-center mt-3">
+                  Something went wrong. Please try again or email us directly.
+                </p>
+              )}
             </form>
           </div>
 

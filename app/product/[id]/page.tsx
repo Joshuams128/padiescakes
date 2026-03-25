@@ -218,6 +218,7 @@ export default function ProductPage() {
                   }
                   alt={product.name}
                   fill
+                  priority
                   className="object-contain"
                 />
               </div>

@@ -6,8 +6,31 @@ import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
 
 export const metadata: Metadata = {
-  title: 'Padiescakes - Handcrafted Cupcake Bouquets & Custom Cakes',
+  title: "Padie's Cakes - Handcrafted Cupcake Bouquets & Custom Cakes",
   description: 'Discover beautiful cupcake bouquets, custom cakes, and sweet treats for all occasions. Wedding, birthday, and corporate orders welcome.',
+  metadataBase: new URL('https://padiescakes.ca'),
+  openGraph: {
+    title: "Padie's Cakes - Handcrafted Cupcake Bouquets & Custom Cakes",
+    description: 'Discover beautiful cupcake bouquets, custom cakes, and sweet treats for all occasions.',
+    url: 'https://padiescakes.ca',
+    siteName: "Padie's Cakes",
+    images: [
+      {
+        url: '/images/PadieCakes-RMX-1.png',
+        width: 800,
+        height: 600,
+        alt: "Padie's Cakes Logo",
+      },
+    ],
+    locale: 'en_CA',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Padie's Cakes - Handcrafted Cupcake Bouquets & Custom Cakes",
+    description: 'Discover beautiful cupcake bouquets, custom cakes, and sweet treats for all occasions.',
+    images: ['/images/PadieCakes-RMX-1.png'],
+  },
   icons: {
     icon: '/images/PadieCakes-RMX-1.png',
     apple: '/images/PadieCakes-RMX-1.png',
