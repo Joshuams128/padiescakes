@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
     try {
       await resend.emails.send({
         from: "Padie's Cakes <info@padiescakes.ca>",
-        to: 'joshuams128@gmail.com',
+        to: 'padiescakes@gmail.com',
         subject: `New Order #${orderNumber} - $${total.toFixed(2)}`,
         html: ownerEmailHtml,
       });
