@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import StickyMobileCartButton from '@/components/StickyMobileCartButton';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Padie's Cakes - Handcrafted Cupcake Bouquets & Custom Cakes",
@@ -52,6 +53,7 @@ export default function RootLayout({
           </main>
           <StickyMobileCartButton />
           <Footer />
+          <Analytics />
         </CartProvider>
       </body>
     </html>
