@@ -130,9 +130,9 @@ function SuccessContent() {
                     4
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">Delivery Day</p>
+                    <p className="font-semibold text-gray-900">Ready for Pickup</p>
                     <p className="text-sm text-gray-600">
-                      Your delicious treats will be delivered fresh on your requested date!
+                      Your delicious treats will be ready on your requested date for pickup or delivery!
                     </p>
                   </div>
                 </div>
