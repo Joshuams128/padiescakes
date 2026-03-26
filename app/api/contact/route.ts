@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background-color: #f6d3e1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-            <img src="https://padiescakes.ca/images/PadieCakes-RMX-1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
+            <img src="https://padiescakes.ca/images/padiescakes.logo1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
             <h1 style="color: white; margin: 0;">New Contact Inquiry</h1>
           </div>
           <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">

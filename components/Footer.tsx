@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Image
-              src="/images/PadieCakes-RMX-1.png"
+              src="/images/padiescakes.logo1.png"
               alt="Padiescakes Logo"
               width={120}
               height={120}

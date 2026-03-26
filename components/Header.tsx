@@ -16,12 +16,12 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image 
-              src="/images/PadieCakes-RMX-1.webp" 
-              alt="Padiescakes Logo" 
-              width={150}
-              height={50}
-              className="h-12 w-auto"
+            <Image
+              src="/images/padiescakes.logo1.png"
+              alt="Padiescakes Logo"
+              width={360}
+              height={120}
+              className="max-h-20 w-auto"
             />
           </Link>
 

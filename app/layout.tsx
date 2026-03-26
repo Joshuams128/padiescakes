@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: "Padie's Cakes",
     images: [
       {
-        url: '/images/PadieCakes-RMX-1.png',
+        url: '/images/padiescakes.logo1.png',
         width: 800,
         height: 600,
         alt: "Padie's Cakes Logo",
@@ -30,11 +30,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Padie's Cakes - Handcrafted Cupcake Bouquets & Custom Cakes",
     description: 'Discover beautiful cupcake bouquets, custom cakes, and sweet treats for all occasions.',
-    images: ['/images/PadieCakes-RMX-1.png'],
+    images: ['/images/padiescakes.logo1.png'],
   },
   icons: {
-    icon: '/images/PadieCakes-RMX-1.png',
-    apple: '/images/PadieCakes-RMX-1.png',
+    icon: '/images/padiescakes.logo1.png',
+    apple: '/images/padiescakes.logo1.png',
   },
 };
 
