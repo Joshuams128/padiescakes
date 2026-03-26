@@ -19,9 +19,9 @@ export default function Header() {
             <Image
               src="/images/padiescakes.logo1.png"
               alt="Padiescakes Logo"
-              width={360}
-              height={120}
-              className="max-h-20 w-auto"
+              width={300}
+              height={100}
+              className="max-h-14 w-auto"
             />
           </Link>
 
