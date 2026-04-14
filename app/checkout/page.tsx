@@ -75,10 +75,28 @@ export default function CheckoutPage() {
     if (!formData.dateNeeded) {
       newErrors.dateNeeded = 'Date needed is required';
     } else {
-      const minDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-      minDate.setHours(0, 0, 0, 0);
-      if (new Date(formData.dateNeeded) < minDate) {
-        newErrors.dateNeeded = 'Date must be at least 1 week from today';
+      const hasCake = items.some(
+        (item) => products.find((p) => p.id === item.productId)?.category === 'cakes'
+      );
+      const hasOther = items.some(
+        (item) => products.find((p) => p.id === item.productId)?.category !== 'cakes'
+      );
+      const selectedDate = new Date(formData.dateNeeded);
+
+      const minCakeDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      minCakeDate.setHours(0, 0, 0, 0);
+      const minOtherDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+      minOtherDate.setHours(0, 0, 0, 0);
+
+      const cakeFails = hasCake && selectedDate < minCakeDate;
+      const otherFails = hasOther && selectedDate < minOtherDate;
+
+      if (cakeFails && otherFails) {
+        newErrors.dateNeeded = 'Date must be at least 3 days from today (1 week for cakes)';
+      } else if (cakeFails) {
+        newErrors.dateNeeded = 'Your date works for other items but cakes require at least 1 week from today';
+      } else if (otherFails) {
+        newErrors.dateNeeded = 'Date must be at least 3 days from today';
       }
     }
 
@@ -325,7 +343,7 @@ export default function CheckoutPage() {
                     name="dateNeeded"
                     value={formData.dateNeeded}
                     onChange={handleChange}
-                    min={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                    min={new Date(Date.now() + (items.some((item) => products.find((p) => p.id === item.productId)?.category === 'cakes') ? 7 : 3) * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
                     className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors ${
                       errors.dateNeeded
                         ? 'border-red-500 focus:border-red-600'
@@ -335,9 +353,25 @@ export default function CheckoutPage() {
                   {errors.dateNeeded && (
                     <p className="mt-1 text-sm text-red-600">{errors.dateNeeded}</p>
                   )}
-                  <p className="mt-1 text-sm text-gray-500">
-                    Orders must be placed at least 1 week in advance
-                  </p>
+                  {(() => {
+                    const hasCake = items.some(
+                      (item) => products.find((p) => p.id === item.productId)?.category === 'cakes'
+                    );
+                    const hasOther = items.some(
+                      (item) => products.find((p) => p.id === item.productId)?.category !== 'cakes'
+                    );
+                    if (hasCake && hasOther) {
+                      return (
+                        <p className="mt-1 text-sm text-gray-500">
+                          Cakes must be ordered at least <strong>1 week</strong> in advance. All other items require at least <strong>3 days</strong>.
+                        </p>
+                      );
+                    }
+                    if (hasCake) {
+                      return <p className="mt-1 text-sm text-gray-500">Cake orders must be placed at least 1 week in advance.</p>;
+                    }
+                    return <p className="mt-1 text-sm text-gray-500">Orders must be placed at least 3 days in advance.</p>;
+                  })()}
                 </div>
 
                 {/* Special Notes */}
