@@ -7,9 +7,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { dietaryAddons, products, cakeFillings } from '@/lib/products';
 
+const BLOCKED_START = new Date('2026-04-23T00:00:00');
+const BLOCKED_END = new Date('2026-04-29T23:59:59');
+
+function isDateBlocked(date: Date) {
+  return date >= BLOCKED_START && date <= BLOCKED_END;
+}
+
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart();
   const router = useRouter();
+
+  const todayIsBlocked = isDateBlocked(new Date());
 
   const [formData, setFormData] = useState({
     name: '',
@@ -91,7 +100,9 @@ export default function CheckoutPage() {
       const cakeFails = hasCake && selectedDate < minCakeDate;
       const otherFails = hasOther && selectedDate < minOtherDate;
 
-      if (cakeFails && otherFails) {
+      if (isDateBlocked(selectedDate)) {
+        newErrors.dateNeeded = 'We are not taking orders for April 23–29. Please choose a different date.';
+      } else if (cakeFails && otherFails) {
         newErrors.dateNeeded = 'Date must be at least 3 days from today (1 week for cakes)';
       } else if (cakeFails) {
         newErrors.dateNeeded = 'Your date works for other items but cakes require at least 1 week from today';
@@ -372,6 +383,9 @@ export default function CheckoutPage() {
                     }
                     return <p className="mt-1 text-sm text-gray-500">Orders must be placed at least 3 days in advance.</p>;
                   })()}
+                  <p className="mt-1 text-sm text-red-500 font-medium">
+                    Note: We are closed April 23–29. No orders can be placed for or on these dates.
+                  </p>
                 </div>
 
                 {/* Special Notes */}
@@ -393,9 +407,14 @@ export default function CheckoutPage() {
 
               {/* Submit Button */}
               <div className="mt-8">
+                {todayIsBlocked && (
+                  <p className="mb-4 text-sm text-center text-red-600 font-medium">
+                    We are closed April 23–29 and are not accepting orders during this period.
+                  </p>
+                )}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || todayIsBlocked}
                   className="w-full btn-primary py-4 text-lg font-bold disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Submitting Order...' : 'Place Order'}
