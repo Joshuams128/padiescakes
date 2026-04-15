@@ -10,17 +10,25 @@ function verifyAuth(req: NextRequest) {
   return token === DASHBOARD_PASSWORD;
 }
 
-export async function GET(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ email: string }> }
+) {
   if (!verifyAuth(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const { email } = await params;
+  const decoded = decodeURIComponent(email);
+
   try {
     await connectDB();
-    const orders = await Order.find({}).sort({ createdAt: -1 }).lean();
-    return NextResponse.json({ orders });
+    const result = await Order.deleteMany({
+      email: { $regex: `^${decoded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' },
+    });
+    return NextResponse.json({ success: true, deletedCount: result.deletedCount });
   } catch (error) {
-    console.error('Failed to fetch orders:', error);
-    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
+    console.error('Failed to delete customer orders:', error);
+    return NextResponse.json({ error: 'Failed to delete customer' }, { status: 500 });
   }
 }

@@ -1,4 +1,6 @@
 import { Resend } from 'resend';
+import { connectDB } from '@/lib/mongodb';
+import { Order } from '@/lib/models/Order';
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -102,6 +104,23 @@ export async function POST(req: Request) {
         </div>
       `,
     });
+
+    try {
+      await connectDB();
+      await Order.create({
+        orderNumber,
+        name: order.name,
+        email: order.email,
+        phone: order.phone,
+        address: order.address,
+        dateNeeded: order.dateNeeded,
+        notes: order.notes,
+        items: order.items,
+        total: order.total,
+      });
+    } catch (dbError) {
+      console.error('Failed to persist order to DB:', dbError);
+    }
 
     return Response.json({ success: true, orderNumber });
   } catch (error) {
