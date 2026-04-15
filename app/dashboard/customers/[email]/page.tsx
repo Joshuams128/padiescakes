@@ -146,15 +146,15 @@ export default function CustomerDetailPage() {
   const totalSpent = orders.reduce((sum, o) => sum + (o.total || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4">
+    <div className="min-h-screen bg-gray-100 py-8 sm:py-12 px-4">
       <div className="max-w-5xl mx-auto">
         <Link href="/dashboard/customers" className="text-gray-900 mb-6 inline-block hover:text-gray-700">
           ← Back to Customers
         </Link>
 
-        <div className="bg-white rounded-lg shadow-md p-8 mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">{customer.name}</h1>
-          <div className="grid md:grid-cols-3 gap-6 text-sm">
+        <div className="bg-white rounded-lg shadow-md p-5 sm:p-8 mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 break-words">{customer.name}</h1>
+          <div className="grid sm:grid-cols-3 gap-4 sm:gap-6 text-sm">
             <div>
               <p className="text-gray-600">Email</p>
               <a href={`mailto:${customer.email}`} className="text-gray-900 font-medium hover:text-gray-700">
@@ -181,18 +181,18 @@ export default function CustomerDetailPage() {
             <table className="w-full">
               <thead className="bg-gray-50 border-b">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Order #</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Placed</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Items</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Total</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Payment</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Order #</th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Placed</th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Items</th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Total</th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Payment</th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y">
                 {orders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm">
+                    <td className="px-4 sm:px-6 py-4 text-sm">
                       <Link
                         href={`/dashboard/orders/${order._id}`}
                         className="text-gray-900 font-semibold hover:text-gray-700"
@@ -200,16 +200,16 @@ export default function CustomerDetailPage() {
                         {order.orderNumber}
                       </Link>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-600">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-600">
                       {order.items.reduce((sum, i) => sum + (i.quantity || 0), 0)}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900 font-semibold">
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 font-semibold">
                       ${order.total.toFixed(2)}
                     </td>
-                    <td className="px-6 py-4 text-sm">
+                    <td className="px-4 sm:px-6 py-4 text-sm">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
                           order.paymentStatus === 'paid'
@@ -222,7 +222,7 @@ export default function CustomerDetailPage() {
                         {order.paymentStatus}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm">
+                    <td className="px-4 sm:px-6 py-4 text-sm">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
                           order.status === 'pending'

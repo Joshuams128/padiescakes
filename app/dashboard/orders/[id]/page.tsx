@@ -201,16 +201,16 @@ export default function OrderDetailPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4">
+    <div className="min-h-screen bg-gray-100 py-8 sm:py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <Link href="/dashboard" className="text-gray-900 mb-6 inline-block hover:text-gray-700">
           ← Back to Dashboard
         </Link>
 
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <div className="flex justify-between items-start mb-6">
+        <div className="bg-white rounded-lg shadow-md p-5 sm:p-8">
+          <div className="flex flex-wrap justify-between items-start gap-3 mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{order.orderNumber}</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 break-all">{order.orderNumber}</h1>
               <p className="text-sm text-gray-600 mt-1">
                 {new Date(order.createdAt).toLocaleDateString()} at{' '}
                 {new Date(order.createdAt).toLocaleTimeString()}
@@ -236,7 +236,7 @@ export default function OrderDetailPage() {
             </select>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 mb-8">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
               <div className="space-y-3">
@@ -316,7 +316,7 @@ export default function OrderDetailPage() {
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-6 mb-6">
+          <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Payment</h2>
 
             <div className="mb-4">
@@ -365,7 +365,7 @@ export default function OrderDetailPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-gray-700">
                 Outstanding balance: <span className="font-semibold">${balance.toFixed(2)}</span>
               </p>

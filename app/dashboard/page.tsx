@@ -183,40 +183,40 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4">
+    <div className="min-h-screen bg-gray-100 py-8 sm:py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">Order Dashboard</h1>
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap justify-between items-center gap-3 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">Order Dashboard</h1>
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/dashboard/customers"
-              className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700"
+              className="px-3 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-700"
             >
               Customers
             </Link>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              className="px-3 py-2 text-sm sm:text-base bg-red-600 text-white rounded-lg hover:bg-red-700"
             >
               Logout
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
             <p className="text-sm text-gray-600">Orders This Month</p>
-            <p className="text-3xl font-bold text-gray-900 mt-1">{stats.ordersThisMonth}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">{stats.ordersThisMonth}</p>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
             <p className="text-sm text-gray-600">Revenue This Month</p>
-            <p className="text-3xl font-bold text-gray-900 mt-1">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">
               ${stats.revenueThisMonth.toFixed(2)}
             </p>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
             <p className="text-sm text-gray-600">Unpaid Balance</p>
-            <p className="text-3xl font-bold text-red-600 mt-1">
+            <p className="text-2xl sm:text-3xl font-bold text-red-600 mt-1">
               ${stats.unpaidBalance.toFixed(2)}
             </p>
           </div>
@@ -232,28 +232,28 @@ export default function DashboardPage() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Order #</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Customer</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date Needed</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Total</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Payment</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Details</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Order #</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Customer</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Date Needed</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Total</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Payment</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Status</th>
+                    <th className="px-4 sm:px-6 py-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">Details</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
                   {orders.map((order) => (
                     <tr key={order._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-900 font-semibold">{order.orderNumber}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 font-semibold">{order.orderNumber}</td>
+                      <td className="px-4 sm:px-6 py-4 text-sm text-gray-600">
                         <div>{order.name}</div>
                         <div className="text-xs text-gray-500">{order.email}</div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{order.dateNeeded}</td>
-                      <td className="px-6 py-4 text-sm text-gray-900 font-semibold">
+                      <td className="px-4 sm:px-6 py-4 text-sm text-gray-600">{order.dateNeeded}</td>
+                      <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 font-semibold">
                         ${order.total.toFixed(2)}
                       </td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-4 sm:px-6 py-4 text-sm">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${
                             order.paymentStatus === 'paid'
@@ -266,7 +266,7 @@ export default function DashboardPage() {
                           {order.paymentStatus}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-4 sm:px-6 py-4 text-sm">
                         <select
                           value={order.status}
                           onChange={(e) => handleStatusChange(order._id, e.target.value)}
@@ -286,7 +286,7 @@ export default function DashboardPage() {
                           <option value="cancelled">Cancelled</option>
                         </select>
                       </td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-4 sm:px-6 py-4 text-sm">
                         <button
                           onClick={() => router.push(`/dashboard/orders/${order._id}`)}
                           className="text-gray-900 hover:text-gray-700 font-semibold"

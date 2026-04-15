@@ -25,10 +25,21 @@ export async function POST(req: Request) {
       to: 'padiescakes@gmail.com',
       subject: `New Order #${orderNumber} from ${order.name} - $${order.total.toFixed(2)}`,
       html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="color-scheme" content="light only">
+          <meta name="supported-color-schemes" content="light only">
+          <style>
+            :root { color-scheme: light only; supported-color-schemes: light only; }
+          </style>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #ffffff;">
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background-color: #F1D4E1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/padiescakes.logo1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
-            <h1 style="color: white; margin: 0;">New Order Received!</h1>
+            <h1 style="color: #ffffff; margin: 0;">New Order Received!</h1>
           </div>
           <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
             <h2 style="color: #1f2937; margin-top: 0;">Order #${orderNumber}</h2>
@@ -55,6 +66,8 @@ export async function POST(req: Request) {
             <p style="font-size: 1.2em;"><strong>Total: $${order.total.toFixed(2)}</strong></p>
           </div>
         </div>
+        </body>
+        </html>
       `,
     });
 
@@ -64,10 +77,21 @@ export async function POST(req: Request) {
       to: order.email,
       subject: `Order Confirmation #${orderNumber} - Padie's Cakes`,
       html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="color-scheme" content="light only">
+          <meta name="supported-color-schemes" content="light only">
+          <style>
+            :root { color-scheme: light only; supported-color-schemes: light only; }
+          </style>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #ffffff;">
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background-color: #F1D4E1; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
             <img src="https://padiescakes.ca/images/padiescakes.logo1.png" alt="PadieCakes" style="max-width: 150px; height: auto; margin-bottom: 10px;" />
-            <h1 style="color: white; margin: 0;">Thank You for Your Order!</h1>
+            <h1 style="color: #ffffff; margin: 0;">Thank You for Your Order!</h1>
           </div>
           <div style="background-color: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px;">
             <p style="font-size: 1.1em;">Hi ${order.name},</p>
@@ -102,6 +126,8 @@ export async function POST(req: Request) {
             <p style="margin-top: 30px;">With love,<br><strong>Padie's Cakes Team</strong></p>
           </div>
         </div>
+        </body>
+        </html>
       `,
     });
 
