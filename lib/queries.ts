@@ -83,7 +83,7 @@ export async function getProducts(): Promise<SanityProduct[]> {
 
 export async function getProductBySlug(slug: string): Promise<SanityProduct | null> {
   return sanityClient.fetch(
-    `*[_type == "product" && slug.current == $slug][0] {${productFields}}`,
+    `*[_type == "product" && slug.current == $slug && available == true][0] {${productFields}}`,
     {slug},
     {next: {tags: ['sanity', 'product', `product:${slug}`]}},
   )

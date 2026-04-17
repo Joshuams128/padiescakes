@@ -121,7 +121,8 @@ export default defineType({
     }),
     defineField({
       name: 'available',
-      title: 'Available',
+      title: 'Visible in Shop',
+      description: 'Turn off to hide this product from your shop without deleting it.',
       type: 'boolean',
       initialValue: true,
     }),
