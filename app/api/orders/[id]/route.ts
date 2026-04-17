@@ -102,6 +102,12 @@ export async function PATCH(
   if (body.amountPaid !== undefined) {
     update.amountPaid = body.amountPaid === null ? null : Number(body.amountPaid);
   }
+  if (body.dateNeeded !== undefined) {
+    if (typeof body.dateNeeded !== 'string' || !body.dateNeeded.trim()) {
+      return NextResponse.json({ error: 'Invalid date' }, { status: 400 });
+    }
+    update.dateNeeded = body.dateNeeded.trim();
+  }
 
   try {
     await connectDB();

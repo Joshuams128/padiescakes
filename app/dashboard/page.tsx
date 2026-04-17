@@ -275,6 +275,12 @@ export default function DashboardPage() {
               Add Order
             </Link>
             <Link
+              href="/dashboard/calendar"
+              className="px-3 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-700"
+            >
+              Calendar
+            </Link>
+            <Link
               href="/dashboard/customers"
               className="px-3 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-700"
             >
