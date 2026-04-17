@@ -105,17 +105,98 @@ export default defineType({
     }),
     defineField({
       name: 'dietaryPrices',
-      title: 'Dietary Prices',
+      title: 'Dietary Options',
+      description: 'Pick a dietary option and set its extra price for this product.',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'object',
           name: 'dietaryPrice',
           fields: [
-            defineField({name: 'key', title: 'Key', type: 'string'}),
-            defineField({name: 'price', title: 'Price', type: 'number'}),
+            defineField({
+              name: 'key',
+              title: 'Dietary Option',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Gluten-Free', value: 'gluten-free'},
+                  {title: 'Vegan', value: 'vegan'},
+                  {title: 'Dairy-Free', value: 'dairy-free'},
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'price',
+              title: 'Extra Price ($)',
+              type: 'number',
+              validation: (Rule) => Rule.required().min(0),
+            }),
           ],
-          preview: {select: {title: 'key', subtitle: 'price'}},
+          preview: {
+            select: {title: 'key', subtitle: 'price'},
+            prepare({title, subtitle}) {
+              const labels: Record<string, string> = {
+                'gluten-free': 'Gluten-Free',
+                'vegan': 'Vegan',
+                'dairy-free': 'Dairy-Free',
+              };
+              return {
+                title: title ? labels[title] ?? title : 'Pick an option',
+                subtitle: subtitle != null ? `+$${subtitle}` : '',
+              };
+            },
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: 'fillingPrices',
+      title: 'Filling Prices (Cakes only)',
+      description: 'Optionally override the default filling prices for this cake. Leave empty to use defaults.',
+      type: 'array',
+      hidden: ({parent}) => parent?.category !== 'cakes',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'fillingPrice',
+          fields: [
+            defineField({
+              name: 'key',
+              title: 'Filling',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Vanilla Buttercream', value: 'vanilla-buttercream'},
+                  {title: 'Cream Cheese', value: 'cream-cheese'},
+                  {title: 'Chocolate Ganache', value: 'chocolate-ganache'},
+                  {title: 'Biscoff', value: 'biscoff'},
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'price',
+              title: 'Extra Price ($)',
+              type: 'number',
+              validation: (Rule) => Rule.required().min(0),
+            }),
+          ],
+          preview: {
+            select: {title: 'key', subtitle: 'price'},
+            prepare({title, subtitle}) {
+              const labels: Record<string, string> = {
+                'vanilla-buttercream': 'Vanilla Buttercream',
+                'cream-cheese': 'Cream Cheese',
+                'chocolate-ganache': 'Chocolate Ganache',
+                'biscoff': 'Biscoff',
+              };
+              return {
+                title: title ? labels[title] ?? title : 'Pick a filling',
+                subtitle: subtitle != null ? `+$${subtitle}` : '',
+              };
+            },
+          },
         }),
       ],
     }),

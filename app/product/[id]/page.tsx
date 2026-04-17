@@ -27,6 +27,10 @@ function toProduct(p: SanityProduct): Product {
       acc[d.key] = d.price;
       return acc;
     }, {}),
+    fillingPrices: p.fillingPrices?.reduce<Record<string, number>>((acc, d) => {
+      acc[d.key] = d.price;
+      return acc;
+    }, {}),
   };
 }
 
@@ -43,7 +47,8 @@ const relatedProductFields = `
   maxFlavors,
   minOrder,
   sizes[] { name, pieces, price, serves },
-  dietaryPrices[] { key, price }
+  dietaryPrices[] { key, price },
+  fillingPrices[] { key, price }
 `;
 
 async function getRelatedProducts(category: string, currentSlug: string): Promise<SanityProduct[]> {

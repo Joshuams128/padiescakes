@@ -115,7 +115,8 @@ export default function ProductPageContent({ product, relatedProducts }: Props) 
     let total = sizePrice * quantity;
     if (selectedFilling) {
       const filling = cakeFillings.find((f) => f.id === selectedFilling);
-      if (filling) total += filling.price * quantity;
+      const fillingPrice = product.fillingPrices?.[selectedFilling] ?? filling?.price ?? 0;
+      total += fillingPrice * quantity;
     }
     selectedAddons.forEach((addonId) => {
       const addonPrice = product.dietaryPrices?.[addonId] ?? dietaryAddons.find((a) => a.id === addonId)?.price ?? 0;
@@ -373,7 +374,10 @@ export default function ProductPageContent({ product, relatedProducts }: Props) 
                         </span>
                       </div>
                       <span className={`font-semibold ${selectedFilling === filling.id ? 'text-white' : 'text-gray-900'}`}>
-                        {filling.price > 0 ? `+$${filling.price}` : 'Included'}
+                        {(() => {
+                          const price = product.fillingPrices?.[filling.id] ?? filling.price;
+                          return price > 0 ? `+$${price}` : 'Included';
+                        })()}
                       </span>
                     </label>
                   ))}
