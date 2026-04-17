@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import RevenueChart, { type RevenuePoint } from './RevenueChart';
 
 interface OrderItem {
   name: string;
@@ -40,7 +41,22 @@ export default function DashboardPage() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [revenueData, setRevenueData] = useState<RevenuePoint[]>([]);
   const router = useRouter();
+
+  const fetchRevenue = async (pwd: string) => {
+    try {
+      const response = await fetch('/api/dashboard/revenue', {
+        headers: { Authorization: `Bearer ${pwd}` },
+      });
+      if (response.ok) {
+        const data = (await response.json()) as RevenuePoint[];
+        setRevenueData(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch revenue:', error);
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +71,7 @@ export default function DashboardPage() {
         setAuthError('');
         localStorage.setItem('dashboardAuth', 'true');
         localStorage.setItem('dashboardPassword', password);
+        fetchRevenue(password);
       } else {
         setAuthError('Invalid password');
       }
@@ -120,10 +137,73 @@ export default function DashboardPage() {
     if (isAuth && pwd) {
       setAuthenticated(true);
       fetchOrders(pwd);
+      fetchRevenue(pwd);
     } else {
       setLoading(false);
     }
   }, []);
+
+  const upcomingDue = (() => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const cutoff = new Date(today);
+    cutoff.setDate(cutoff.getDate() + 3);
+    return orders
+      .filter((o) => {
+        if (o.status === 'completed' || o.status === 'cancelled') return false;
+        const d = new Date(o.dateNeeded);
+        if (isNaN(d.getTime())) return false;
+        const dOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        return dOnly >= today && dOnly <= cutoff;
+      })
+      .sort((a, b) => new Date(a.dateNeeded).getTime() - new Date(b.dateNeeded).getTime());
+  })();
+
+  const escapeCsv = (val: string | number | undefined | null) => {
+    const s = val === undefined || val === null ? '' : String(val);
+    if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+    return s;
+  };
+
+  const handleExportCsv = () => {
+    const headers = [
+      'Order #',
+      'Customer Name',
+      'Email',
+      'Phone',
+      'Date Needed',
+      'Total',
+      'Payment Status',
+      'Order Status',
+      'Created At',
+    ];
+    const rows = orders.map((o) =>
+      [
+        o.orderNumber,
+        o.name,
+        o.email,
+        o.phone,
+        o.dateNeeded,
+        o.total.toFixed(2),
+        o.paymentStatus,
+        o.status,
+        o.createdAt,
+      ]
+        .map(escapeCsv)
+        .join(','),
+    );
+    const csv = [headers.map(escapeCsv).join(','), ...rows].join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    const stamp = new Date().toISOString().slice(0, 10);
+    link.download = `orders-${stamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const stats = (() => {
     const now = new Date();
@@ -189,6 +269,12 @@ export default function DashboardPage() {
           <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">Order Dashboard</h1>
           <div className="flex items-center gap-2 sm:gap-3">
             <Link
+              href="/dashboard/orders/new"
+              className="px-3 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-700"
+            >
+              Add Order
+            </Link>
+            <Link
               href="/dashboard/customers"
               className="px-3 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-gray-700"
             >
@@ -202,6 +288,39 @@ export default function DashboardPage() {
             </button>
           </div>
         </div>
+
+        {upcomingDue.length > 0 && (
+          <div className="mb-6 sm:mb-8 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg shadow-md p-4 sm:p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-5 h-5 text-yellow-700"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                />
+              </svg>
+              <h2 className="text-base sm:text-lg font-semibold text-yellow-900">
+                Orders Due in the Next 3 Days
+              </h2>
+            </div>
+            <ul className="space-y-1.5">
+              {upcomingDue.map((o) => (
+                <li key={o._id} className="text-sm text-yellow-900 flex flex-wrap gap-x-3">
+                  <span className="font-semibold">{o.orderNumber}</span>
+                  <span>{o.name}</span>
+                  <span className="text-yellow-800">Needed: {o.dateNeeded}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
           <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
@@ -222,12 +341,30 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {revenueData.length > 0 && (
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">
+              Revenue (Last 6 Months)
+            </h2>
+            <RevenueChart data={revenueData} />
+          </div>
+        )}
+
         {orders.length === 0 ? (
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
             <p className="text-gray-600">No orders yet</p>
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="flex justify-between items-center px-4 sm:px-6 py-3 border-b bg-gray-50">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900">Orders</h2>
+              <button
+                onClick={handleExportCsv}
+                className="px-3 py-2 text-sm bg-gray-900 text-white rounded-lg hover:bg-gray-700"
+              >
+                Export CSV
+              </button>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b">
