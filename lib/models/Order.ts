@@ -26,6 +26,7 @@ export interface OrderDoc extends Document {
   paymentStatus: 'unpaid' | 'deposit' | 'paid';
   depositAmount?: number;
   amountPaid?: number;
+  source?: 'website' | 'instagram' | 'phone' | 'other';
   createdAt: Date;
 }
 
@@ -66,6 +67,11 @@ const OrderSchema = new Schema<OrderDoc>({
   },
   depositAmount: { type: Number },
   amountPaid: { type: Number },
+  source: {
+    type: String,
+    enum: ['website', 'instagram', 'phone', 'other'],
+    default: 'website',
+  },
   createdAt: { type: Date, default: Date.now },
 });
 
