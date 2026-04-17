@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/Header';
-import StickyMobileCartButton from '@/components/StickyMobileCartButton';
-import Footer from '@/components/Footer';
+import ConditionalChrome from '@/components/ConditionalChrome';
 import { CartProvider } from '@/context/CartContext';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -47,12 +45,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <CartProvider>
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <StickyMobileCartButton />
-          <Footer />
+          <ConditionalChrome>{children}</ConditionalChrome>
           <Analytics />
         </CartProvider>
       </body>
