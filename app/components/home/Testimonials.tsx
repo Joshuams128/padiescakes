@@ -21,7 +21,7 @@ export default function Testimonials() {
             width="100%"
             height="500"
             style={{ border: 0, borderRadius: '16px' }}
-            allowFullScreen=""
+            allowFullScreen={true}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="shadow-[0_10px_40px_-20px_rgba(74,47,34,0.18)]"
