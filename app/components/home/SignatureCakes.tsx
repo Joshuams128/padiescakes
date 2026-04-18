@@ -1,28 +1,53 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProducts, type SanityProduct } from '@/lib/queries';
-import { urlFor } from '@/lib/sanity';
 import Reveal from './Reveal';
 
-const FEATURED_CATEGORIES: SanityProduct['category'][] = ['cakes', 'bouquets'];
-
-function pickFeatured(products: SanityProduct[]): SanityProduct[] {
-  const inCategory = products.filter((p) => FEATURED_CATEGORIES.includes(p.category));
-  const pool = inCategory.length >= 4 ? inCategory : products;
-  // Pick up to 4, preferring products with imagery.
-  return pool.filter((p) => p.image?.asset).slice(0, 4);
+interface FeaturedProduct {
+  name: string;
+  slug: string;
+  basePrice: number;
+  category: string;
+  image: string;
+  alt: string;
 }
 
-export default async function SignatureCakes() {
-  let featured: SanityProduct[] = [];
-  try {
-    const products = await getProducts();
-    featured = pickFeatured(products);
-  } catch {
-    featured = [];
-  }
+const FEATURED_PRODUCTS: FeaturedProduct[] = [
+  {
+    name: '12-Cupcake Bouquet',
+    slug: '12-cupcake-bouquet',
+    basePrice: 95,
+    category: 'bouquets',
+    image: '/images/12cupcakebouquet.png',
+    alt: '12-Cupcake Bouquet',
+  },
+  {
+    name: '19-Cupcake Bouquet',
+    slug: '19-cupcake-bouquet',
+    basePrice: 150,
+    category: 'bouquets',
+    image: '/images/19cupcake.webp',
+    alt: '19-Cupcake Bouquet',
+  },
+  {
+    name: '14 Mini Cupcake Bouquet on a Cake Board',
+    slug: '14-mini-cupcake-bouquet-on-a-cake-board',
+    basePrice: 50,
+    category: 'mini-cupcakes',
+    image: '/images/14MiniCupcake.jpeg',
+    alt: '14 Mini Cupcake Bouquet on a Cake Board',
+  },
+  {
+    name: '7-Cupcake Bouquet',
+    slug: '7-cupcake-bouquet',
+    basePrice: 65,
+    category: 'bouquets',
+    image: '/images/7-bouquet.png',
+    alt: '7-Cupcake Bouquet',
+  },
+];
 
-  if (featured.length === 0) return null;
+export default async function SignatureCakes() {
+  const featured = FEATURED_PRODUCTS;
 
   return (
     <section className="bg-[color:var(--color-cream-50)] py-20 sm:py-24">
@@ -45,41 +70,36 @@ export default async function SignatureCakes() {
         </Reveal>
 
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {featured.map((p, i) => {
-            const img = p.image?.asset ? urlFor(p.image).width(900).height(1100).url() : '';
-            return (
-              <Reveal as="li" key={p._id} delay={i * 80}>
-                <Link
-                  href={`/product/${p.slug.current}`}
-                  className="group block h-full"
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[color:var(--color-cream-100)]">
-                    {img && (
-                      <Image
-                        src={img}
-                        alt={p.image?.alt || p.name}
-                        fill
-                        loading="lazy"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                      />
-                    )}
-                  </div>
-                  <div className="mt-5 flex items-baseline justify-between gap-4">
-                    <h3 className="font-serif text-xl text-[color:var(--color-espresso-900)] leading-snug">
-                      {p.name}
-                    </h3>
-                    <span className="font-sans text-sm tabular-nums text-[color:var(--color-espresso-700)] whitespace-nowrap">
-                      from ${p.basePrice}
-                    </span>
-                  </div>
-                  <span className="mt-1 block text-sm text-[color:var(--color-espresso-500)] capitalize">
-                    {p.category.replace('-', ' ')}
+          {featured.map((p, i) => (
+            <Reveal as="li" key={p.slug} delay={i * 80}>
+              <Link
+                href={`/product/${p.slug}`}
+                className="group block h-full"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[color:var(--color-cream-100)]">
+                  <Image
+                    src={p.image}
+                    alt={p.alt}
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                  />
+                </div>
+                <div className="mt-5 flex items-baseline justify-between gap-4">
+                  <h3 className="font-serif text-xl text-[color:var(--color-espresso-900)] leading-snug">
+                    {p.name}
+                  </h3>
+                  <span className="font-sans text-sm tabular-nums text-[color:var(--color-espresso-700)] whitespace-nowrap">
+                    from ${p.basePrice}
                   </span>
-                </Link>
-              </Reveal>
-            );
-          })}
+                </div>
+                <span className="mt-1 block text-sm text-[color:var(--color-espresso-500)] capitalize">
+                  {p.category.replace('-', ' ')}
+                </span>
+              </Link>
+            </Reveal>
+          ))}
         </ul>
       </div>
     </section>
