@@ -33,7 +33,7 @@ export default async function SignatureCakes() {
               Signature
             </span>
             <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)]">
-              Our most loved cakes
+              Our most loved bouquets
             </h2>
           </div>
           <Link

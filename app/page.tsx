@@ -1,8 +1,6 @@
 import Hero from './components/home/Hero';
 import SignatureCakes from './components/home/SignatureCakes';
 import Story from './components/home/Story';
-import Gallery from './components/home/Gallery';
-import Testimonials from './components/home/Testimonials';
 import FinalCTA from './components/home/FinalCTA';
 
 export default function HomePage() {
@@ -11,8 +9,6 @@ export default function HomePage() {
       <Hero />
       <SignatureCakes />
       <Story />
-      <Gallery />
-      <Testimonials />
       <FinalCTA />
     </main>
   );

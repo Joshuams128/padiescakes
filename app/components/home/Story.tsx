@@ -19,36 +19,11 @@ export default function Story() {
         </Reveal>
 
         <Reveal className="lg:col-span-7" delay={120}>
-          <span className="text-xs uppercase tracking-[0.28em] text-[color:var(--color-blush-400)]">
-            Our story
-          </span>
           <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)] leading-[1.05] max-w-xl">
-            One kitchen. One piping bag. Every cake made by hand.
-          </h2>
+Designed for weddings, celebrations, and unforgettable moments.          </h2>
           <div className="mt-6 space-y-5 text-[color:var(--color-espresso-700)] text-lg leading-relaxed max-w-xl">
             <p>
-              Padie started piping buttercream roses for her sister&apos;s
-              birthday in 2019. One cake turned into twenty, then two hundred,
-              and now she bakes for weddings, christenings, and Tuesday
-              afternoons that deserve something sweeter.
-            </p>
-            <p>
-              We don&apos;t do mass-produced. Every order is made to spec, in
-              real butter, and walked out of our kitchen in Toronto — usually
-              still warm from the oven.
-            </p>
-          </div>
-
-          <div className="mt-8 flex items-center gap-4">
-            <span
-              className="font-serif italic text-3xl text-[color:var(--color-espresso-900)]"
-              style={{ letterSpacing: '-0.01em' }}
-            >
-              — Padie
-            </span>
-            <span className="text-sm text-[color:var(--color-espresso-500)]">
-              Owner &amp; head baker
-            </span>
+Indulge in a statement-making centerpiece with our 44 Floral Cupcake Bouquet, a luxurious arrangement featuring forty-four beautifully crafted cupcakes, each intricately decorated to resemble delicate, hand-formed blooms in soft, elegant tones. Designed to reflect the sophistication of a fresh floral display, every cupcake showcases refined piping and detailed artistry, making it perfect for weddings, upscale celebrations, and large party affairs. With its impressive size and cohesive design, this bouquet serves as both a stunning focal point and a delicious treat, leaving a lasting impression on every guest.            </p>
           </div>
         </Reveal>
       </div>

@@ -32,46 +32,6 @@ export default function Gallery() {
   return (
     <section className="bg-[color:var(--color-cream-100)] py-20 sm:py-24">
       <div className="container-custom">
-        <Reveal className="max-w-2xl mb-12">
-          <span className="text-xs uppercase tracking-[0.28em] text-[color:var(--color-blush-400)]">
-            Past work
-          </span>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)]">
-            From our kitchen
-          </h2>
-          <p className="mt-4 text-[color:var(--color-espresso-700)] text-lg">
-            A peek at recent cakes, bouquets and weddings — tag us on
-            Instagram and we&apos;ll share yours next.
-          </p>
-        </Reveal>
-
-        <ul
-          className="
-            grid gap-3 sm:gap-4
-            grid-cols-2 sm:grid-cols-3 lg:grid-cols-4
-            lg:auto-rows-[180px]
-          "
-        >
-          {items.map((item, i) => (
-            <Reveal
-              as="li"
-              key={item.src}
-              delay={i * 60}
-              className={`relative overflow-hidden rounded-2xl bg-[color:var(--color-cream-200)] ${
-                item.tall ? 'lg:row-span-2 aspect-[3/4] lg:aspect-auto' : 'aspect-square'
-              }`}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                loading="lazy"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-out hover:scale-[1.04]"
-              />
-            </Reveal>
-          ))}
-        </ul>
       </div>
     </section>
   );
