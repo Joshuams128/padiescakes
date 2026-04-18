@@ -1,6 +1,26 @@
 @import "tailwindcss";
 
 @theme {
+  /* Warm bakery palette */
+  --color-cream-50: #fbf7f2;
+  --color-cream-100: #f6efe6;
+  --color-cream-200: #efe3d2;
+  --color-cream-300: #e4d1b8;
+
+  --color-blush-50: #fdf5f1;
+  --color-blush-100: #f9e6dd;
+  --color-blush-200: #f2c9b6;
+  --color-blush-300: #e8a88c;
+  --color-blush-400: #d98869;
+
+  --color-espresso-50: #f3ebe2;
+  --color-espresso-500: #6b4a38;
+  --color-espresso-700: #4a2f22;
+  --color-espresso-900: #2c1a12;
+
+  --color-ink-900: #1f1915;
+
+  /* Legacy primary/secondary kept for header/other pages */
   --color-primary-50: #fef8fa;
   --color-primary-100: #fdf1f5;
   --color-primary-200: #fae4ec;
@@ -11,7 +31,7 @@
   --color-primary-700: #eebfd2;
   --color-primary-800: #e5aac2;
   --color-primary-900: #d98fb0;
-  
+
   --color-secondary-50: #fefce8;
   --color-secondary-100: #fef9c3;
   --color-secondary-200: #fef08a;
@@ -22,11 +42,21 @@
   --color-secondary-700: #a16207;
   --color-secondary-800: #854d0e;
   --color-secondary-900: #713f12;
+
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   body {
     @apply bg-white text-gray-900;
+  }
+  .font-serif {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+  }
+  .font-sans {
+    font-family: var(--font-sans);
   }
 }
 
@@ -34,12 +64,47 @@
   .btn-primary {
     @apply bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200;
   }
-  
+
   .btn-secondary {
     @apply bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-lg border-2 border-gray-900 transition-colors duration-200;
   }
-  
+
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Editorial button styles for the home page */
+  .btn-espresso {
+    @apply inline-flex items-center justify-center gap-2 bg-[color:var(--color-espresso-900)] text-[color:var(--color-cream-50)]
+           font-medium tracking-wide px-7 py-3.5 rounded-full
+           transition-all duration-300 hover:bg-[color:var(--color-espresso-700)] hover:-translate-y-0.5;
+  }
+
+  .btn-ghost-espresso {
+    @apply inline-flex items-center justify-center gap-2 text-[color:var(--color-espresso-900)]
+           font-medium tracking-wide px-6 py-3 rounded-full
+           border border-[color:var(--color-espresso-900)]/30
+           transition-all duration-300 hover:bg-[color:var(--color-espresso-900)]/5 hover:border-[color:var(--color-espresso-900)]/60;
+  }
+}
+
+/* -------- Lightweight scroll-reveal (CSS only) -------- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

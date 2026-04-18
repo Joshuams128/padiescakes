@@ -1,8 +1,21 @@
 import type { Metadata } from 'next';
+import { Fraunces, Inter } from 'next/font/google';
 import './globals.css';
 import ConditionalChrome from '@/components/ConditionalChrome';
 import { CartProvider } from '@/context/CartContext';
 import { Analytics } from '@vercel/analytics/next';
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-fraunces',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: "Padie's Cakes - Handcrafted Cupcake Bouquets & Custom Cakes",
@@ -42,8 +55,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+      <body className="font-sans">
         <CartProvider>
           <ConditionalChrome>{children}</ConditionalChrome>
           <Analytics />
