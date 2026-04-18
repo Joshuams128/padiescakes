@@ -51,8 +51,8 @@ export default function Hero() {
         <div className="lg:col-span-6 order-1 lg:order-2 relative">
           <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] max-h-[78vh] w-full rounded-[28px] overflow-hidden shadow-[0_30px_80px_-30px_rgba(74,47,34,0.35)]">
             <Image
-              src="/images/86cupcakes.png"
-              alt="Handcrafted cupcake bouquets — Padie's Cakes"
+              src="/images/7-bouquet.png"
+              alt="7-Cupcake Bouquet — Padie's Cakes"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"

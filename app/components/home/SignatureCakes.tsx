@@ -13,20 +13,20 @@ interface FeaturedProduct {
 
 const FEATURED_PRODUCTS: FeaturedProduct[] = [
   {
+    name: 'All My Love',
+    slug: 'all-my-love',
+    basePrice: 65,
+    category: 'bouquets',
+    image: '/images/allmylove-2.JPG',
+    alt: 'All My Love bouquet',
+  },
+  {
     name: '12-Cupcake Bouquet',
     slug: '12-cupcake-bouquet',
     basePrice: 95,
     category: 'bouquets',
     image: '/images/12cupcakebouquet.png',
     alt: '12-Cupcake Bouquet',
-  },
-  {
-    name: '19-Cupcake Bouquet',
-    slug: '19-cupcake-bouquet',
-    basePrice: 150,
-    category: 'bouquets',
-    image: '/images/19cupcake.webp',
-    alt: '19-Cupcake Bouquet',
   },
   {
     name: '14 Mini Cupcake Bouquet on a Cake Board',
@@ -37,12 +37,12 @@ const FEATURED_PRODUCTS: FeaturedProduct[] = [
     alt: '14 Mini Cupcake Bouquet on a Cake Board',
   },
   {
-    name: '7-Cupcake Bouquet',
-    slug: '7-cupcake-bouquet',
-    basePrice: 65,
+    name: '19-Cupcake Bouquet',
+    slug: '19-cupcake-bouquet',
+    basePrice: 150,
     category: 'bouquets',
-    image: '/images/7-bouquet.png',
-    alt: '7-Cupcake Bouquet',
+    image: '/images/19cupcake.webp',
+    alt: '19-Cupcake Bouquet',
   },
 ];
 
