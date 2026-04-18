@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useDashboardToken } from '../../useDashboardToken';
 
 interface ItemDraft {
   name: string;
@@ -18,8 +19,7 @@ const emptyItem = (): ItemDraft => ({ name: '', flavor: '', quantity: 1, price: 
 
 export default function NewOrderPage() {
   const router = useRouter();
-  const [authReady, setAuthReady] = useState(false);
-  const [password, setPassword] = useState('');
+  const { token, loading: sessionLoading } = useDashboardToken();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -35,17 +35,6 @@ export default function NewOrderPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const isAuth = localStorage.getItem('dashboardAuth') === 'true';
-    const pwd = localStorage.getItem('dashboardPassword') || '';
-    if (!isAuth || !pwd) {
-      router.replace('/dashboard');
-      return;
-    }
-    setPassword(pwd);
-    setAuthReady(true);
-  }, [router]);
 
   const computedTotal = items.reduce(
     (sum, it) => sum + (Number(it.quantity) || 0) * (Number(it.price) || 0),
@@ -87,7 +76,7 @@ export default function NewOrderPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${password}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name,
@@ -123,7 +112,7 @@ export default function NewOrderPage() {
     }
   };
 
-  if (!authReady) {
+  if (sessionLoading) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
         <p className="text-gray-600">Loading...</p>

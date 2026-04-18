@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import RevenueChart, { type RevenuePoint } from './RevenueChart';
+import { useDashboardToken } from './useDashboardToken';
 
 interface OrderItem {
   name: string;
@@ -36,13 +38,27 @@ interface Order {
 }
 
 export default function DashboardPage() {
+  const { token, authenticated, loading: sessionLoading } = useDashboardToken();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [password, setPassword] = useState('');
-  const [authenticated, setAuthenticated] = useState(false);
-  const [authError, setAuthError] = useState('');
   const [revenueData, setRevenueData] = useState<RevenuePoint[]>([]);
   const router = useRouter();
+
+  const fetchOrders = async (pwd: string) => {
+    try {
+      const response = await fetch('/api/orders/list', {
+        headers: { Authorization: `Bearer ${pwd}` },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setOrders(data.orders || []);
+      }
+    } catch (error) {
+      console.error('Failed to fetch orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchRevenue = async (pwd: string) => {
     try {
@@ -58,57 +74,13 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/orders/list', {
-        headers: { Authorization: `Bearer ${password}` },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data.orders || []);
-        setAuthenticated(true);
-        setAuthError('');
-        localStorage.setItem('dashboardAuth', 'true');
-        localStorage.setItem('dashboardPassword', password);
-        fetchRevenue(password);
-      } else {
-        setAuthError('Invalid password');
-      }
-    } catch (error) {
-      console.error('Login failed:', error);
-      setAuthError('Login failed');
-    }
-  };
-
-  const fetchOrders = async (pwd: string) => {
-    try {
-      const response = await fetch('/api/orders/list', {
-        headers: { Authorization: `Bearer ${pwd}` },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data.orders || []);
-      } else if (response.status === 401) {
-        setAuthenticated(false);
-        localStorage.removeItem('dashboardAuth');
-        localStorage.removeItem('dashboardPassword');
-      }
-    } catch (error) {
-      console.error('Failed to fetch orders:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleStatusChange = async (orderId: string, newStatus: string) => {
-    const pwd = localStorage.getItem('dashboardPassword') || password;
     try {
       const response = await fetch(`/api/orders/${orderId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${pwd}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: newStatus }),
       });
@@ -123,25 +95,38 @@ export default function DashboardPage() {
     }
   };
 
-  const handleLogout = () => {
-    setAuthenticated(false);
-    setPassword('');
-    setOrders([]);
-    localStorage.removeItem('dashboardAuth');
-    localStorage.removeItem('dashboardPassword');
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.replace('/dashboard/login');
+    router.refresh();
   };
 
   useEffect(() => {
-    const isAuth = localStorage.getItem('dashboardAuth') === 'true';
-    const pwd = localStorage.getItem('dashboardPassword') || '';
-    if (isAuth && pwd) {
-      setAuthenticated(true);
-      fetchOrders(pwd);
-      fetchRevenue(pwd);
-    } else {
-      setLoading(false);
+    if (authenticated && token) {
+      fetchOrders(token);
+      fetchRevenue(token);
     }
-  }, []);
+  }, [authenticated, token]);
+
+  const stats = (() => {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    let ordersThisMonth = 0;
+    let revenueThisMonth = 0;
+    let unpaidBalance = 0;
+    for (const o of orders) {
+      const created = new Date(o.createdAt);
+      if (created >= monthStart) {
+        ordersThisMonth += 1;
+        revenueThisMonth += o.total || 0;
+      }
+      if (o.paymentStatus !== 'paid' && o.status !== 'cancelled') {
+        const paid = o.amountPaid ?? (o.paymentStatus === 'deposit' ? (o.depositAmount ?? 0) : 0);
+        unpaidBalance += Math.max((o.total || 0) - paid, 0);
+      }
+    }
+    return { ordersThisMonth, revenueThisMonth, unpaidBalance };
+  })();
 
   const upcomingDue = (() => {
     const now = new Date();
@@ -205,56 +190,7 @@ export default function DashboardPage() {
     URL.revokeObjectURL(url);
   };
 
-  const stats = (() => {
-    const now = new Date();
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-    let ordersThisMonth = 0;
-    let revenueThisMonth = 0;
-    let unpaidBalance = 0;
-    for (const o of orders) {
-      const created = new Date(o.createdAt);
-      if (created >= monthStart) {
-        ordersThisMonth += 1;
-        revenueThisMonth += o.total || 0;
-      }
-      if (o.paymentStatus !== 'paid' && o.status !== 'cancelled') {
-        const paid = o.amountPaid ?? (o.paymentStatus === 'deposit' ? (o.depositAmount ?? 0) : 0);
-        unpaidBalance += Math.max((o.total || 0) - paid, 0);
-      }
-    }
-    return { ordersThisMonth, revenueThisMonth, unpaidBalance };
-  })();
-
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4">
-        <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">Admin Dashboard</h1>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
-                Enter Dashboard Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-gray-400 focus:outline-none"
-                placeholder="••••••••"
-              />
-              {authError && <p className="text-red-500 text-sm mt-2">{authError}</p>}
-            </div>
-            <button type="submit" className="w-full btn-primary py-2 font-semibold">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
+  if (sessionLoading || loading) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
         <p className="text-gray-600">Loading orders...</p>

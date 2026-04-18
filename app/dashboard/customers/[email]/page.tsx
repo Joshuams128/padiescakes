@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useDashboardToken } from '../../useDashboardToken';
 
 interface OrderItem {
   name: string;
@@ -27,51 +28,32 @@ interface Order {
 export default function CustomerDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const { token, authenticated, loading: sessionLoading } = useDashboardToken();
   const emailParam = decodeURIComponent((params?.email as string) || '');
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const getPwd = () =>
-    typeof window !== 'undefined' ? localStorage.getItem('dashboardPassword') || '' : '';
-
-  const fetchOrders = async () => {
-    const pwd = getPwd();
-    if (!pwd) {
-      setAuthenticated(false);
-      setLoading(false);
-      return;
-    }
-    try {
-      const response = await fetch('/api/orders/list', {
-        headers: { Authorization: `Bearer ${pwd}` },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        const all: Order[] = data.orders || [];
-        setOrders(all.filter((o) => o.email.toLowerCase() === emailParam.toLowerCase()));
-        setAuthenticated(true);
-      } else if (response.status === 401) {
-        setAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Failed to fetch orders:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    const isAuth =
-      typeof window !== 'undefined' && localStorage.getItem('dashboardAuth') === 'true';
-    if (isAuth) {
-      fetchOrders();
-    } else {
-      setLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [emailParam]);
+    if (!authenticated || !token) return;
+    const run = async () => {
+      try {
+        const response = await fetch('/api/orders/list', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const all: Order[] = data.orders || [];
+          setOrders(all.filter((o) => o.email.toLowerCase() === emailParam.toLowerCase()));
+        }
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
+  }, [authenticated, token, emailParam]);
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
@@ -79,13 +61,12 @@ export default function CustomerDetailPage() {
     );
     if (!confirmed) return;
     setDeleting(true);
-    const pwd = getPwd();
     try {
       const response = await fetch(
         `/api/customers/${encodeURIComponent(emailParam)}`,
         {
           method: 'DELETE',
-          headers: { Authorization: `Bearer ${pwd}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (response.ok) {
@@ -101,25 +82,7 @@ export default function CustomerDetailPage() {
     }
   };
 
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4">
-        <div className="max-w-xl mx-auto">
-          <Link href="/dashboard" className="text-gray-900 mb-6 inline-block">
-            ← Back to Dashboard
-          </Link>
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Required</h1>
-            <Link href="/dashboard" className="btn-primary inline-block">
-              Go to Login
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
+  if (sessionLoading || loading) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
         <p className="text-gray-600">Loading customer...</p>

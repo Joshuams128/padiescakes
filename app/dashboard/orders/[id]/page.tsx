@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useDashboardToken } from '../../useDashboardToken';
 
 interface OrderItem {
   name: string;
@@ -35,9 +36,9 @@ interface Order {
 }
 
 export default function OrderDetailPage() {
+  const { token, authenticated, loading: sessionLoading } = useDashboardToken();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
   const [depositInput, setDepositInput] = useState<string>('');
   const [amountPaidInput, setAmountPaidInput] = useState<string>('');
   const [savingPayment, setSavingPayment] = useState(false);
@@ -46,55 +47,34 @@ export default function OrderDetailPage() {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
 
-  const getPwd = () =>
-    typeof window !== 'undefined' ? localStorage.getItem('dashboardPassword') || '' : '';
-
-  const fetchOrder = async () => {
-    const pwd = getPwd();
-    if (!pwd) {
-      setAuthenticated(false);
-      setLoading(false);
-      return;
-    }
-    try {
-      const response = await fetch(`/api/orders/${params.id}`, {
-        headers: { Authorization: `Bearer ${pwd}` },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setOrder(data.order);
-        setAuthenticated(true);
-        setDepositInput(data.order.depositAmount?.toString() ?? '');
-        setAmountPaidInput(data.order.amountPaid?.toString() ?? '');
-      } else if (response.status === 401) {
-        setAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Failed to fetch order:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    const isAuth =
-      typeof window !== 'undefined' && localStorage.getItem('dashboardAuth') === 'true';
-    if (isAuth) {
-      setAuthenticated(true);
-      fetchOrder();
-    } else {
-      setLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!authenticated || !token) return;
+    const run = async () => {
+      try {
+        const response = await fetch(`/api/orders/${params.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setOrder(data.order);
+          setDepositInput(data.order.depositAmount?.toString() ?? '');
+          setAmountPaidInput(data.order.amountPaid?.toString() ?? '');
+        }
+      } catch (error) {
+        console.error('Failed to fetch order:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
+  }, [authenticated, token, params.id]);
 
   const patchOrder = async (update: Record<string, unknown>) => {
-    const pwd = getPwd();
     const response = await fetch(`/api/orders/${params.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${pwd}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(update),
     });
@@ -121,11 +101,10 @@ export default function OrderDetailPage() {
     );
     if (!confirmed) return;
     setDeleting(true);
-    const pwd = getPwd();
     try {
       const response = await fetch(`/api/orders/${params.id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${pwd}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (response.ok) {
         router.push('/dashboard');
@@ -153,26 +132,7 @@ export default function OrderDetailPage() {
     }
   };
 
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4">
-        <div className="max-w-xl mx-auto">
-          <Link href="/dashboard" className="text-gray-900 mb-6 inline-block">
-            ← Back to Dashboard
-          </Link>
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Required</h1>
-            <p className="text-gray-600 mb-4">You need to log in to view this order.</p>
-            <Link href="/dashboard" className="btn-primary inline-block">
-              Go to Login
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
+  if (sessionLoading || loading) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
         <p className="text-gray-600">Loading order details...</p>

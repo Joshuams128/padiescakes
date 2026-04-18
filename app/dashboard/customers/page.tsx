@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useDashboardToken } from '../useDashboardToken';
 
 interface Customer {
   email: string;
@@ -13,68 +14,31 @@ interface Customer {
 }
 
 export default function CustomersPage() {
+  const { token, authenticated, loading: sessionLoading } = useDashboardToken();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-
-  const getPwd = () =>
-    typeof window !== 'undefined' ? localStorage.getItem('dashboardPassword') || '' : '';
-
-  const fetchCustomers = async () => {
-    const pwd = getPwd();
-    if (!pwd) {
-      setAuthenticated(false);
-      setLoading(false);
-      return;
-    }
-    try {
-      const response = await fetch('/api/customers', {
-        headers: { Authorization: `Bearer ${pwd}` },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setCustomers(data.customers || []);
-        setAuthenticated(true);
-      } else if (response.status === 401) {
-        setAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Failed to fetch customers:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    const isAuth =
-      typeof window !== 'undefined' && localStorage.getItem('dashboardAuth') === 'true';
-    if (isAuth) {
-      fetchCustomers();
-    } else {
-      setLoading(false);
-    }
-  }, []);
+    if (!authenticated || !token) return;
+    const run = async () => {
+      try {
+        const response = await fetch('/api/customers', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setCustomers(data.customers || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch customers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
+  }, [authenticated, token]);
 
-  if (!authenticated) {
-    return (
-      <div className="min-h-screen bg-gray-100 py-12 px-4">
-        <div className="max-w-xl mx-auto">
-          <Link href="/dashboard" className="text-gray-900 mb-6 inline-block">
-            ← Back to Dashboard
-          </Link>
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Required</h1>
-            <p className="text-gray-600 mb-4">You need to log in to view customers.</p>
-            <Link href="/dashboard" className="btn-primary inline-block">
-              Go to Login
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
+  if (sessionLoading || loading) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
         <p className="text-gray-600">Loading customers...</p>

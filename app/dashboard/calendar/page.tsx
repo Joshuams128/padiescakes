@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useDashboardToken } from '../useDashboardToken';
 
 interface Order {
   _id: string;
@@ -40,9 +40,7 @@ function parseOrderDate(s: string): Date | null {
 }
 
 export default function CalendarPage() {
-  const router = useRouter();
-  const [authReady, setAuthReady] = useState(false);
-  const [password, setPassword] = useState('');
+  const { token, authenticated, loading: sessionLoading } = useDashboardToken();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewDate, setViewDate] = useState(() => {
@@ -56,32 +54,24 @@ export default function CalendarPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const isAuth = localStorage.getItem('dashboardAuth') === 'true';
-    const pwd = localStorage.getItem('dashboardPassword') || '';
-    if (!isAuth || !pwd) {
-      router.replace('/dashboard');
-      return;
-    }
-    setPassword(pwd);
-    setAuthReady(true);
-    fetchOrders(pwd);
-  }, [router]);
-
-  const fetchOrders = async (pwd: string) => {
-    try {
-      const res = await fetch('/api/orders/list', {
-        headers: { Authorization: `Bearer ${pwd}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setOrders(data.orders || []);
+    if (!authenticated || !token) return;
+    const run = async () => {
+      try {
+        const res = await fetch('/api/orders/list', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setOrders(data.orders || []);
+        }
+      } catch (e) {
+        console.error('Failed to fetch orders:', e);
+      } finally {
+        setLoading(false);
       }
-    } catch (e) {
-      console.error('Failed to fetch orders:', e);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    run();
+  }, [authenticated, token]);
 
   const { days, ordersByDay } = useMemo(() => {
     const firstOfMonth = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
@@ -145,7 +135,7 @@ export default function CalendarPage() {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${password}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ dateNeeded: editingDate }),
       });
@@ -170,7 +160,7 @@ export default function CalendarPage() {
     }
   };
 
-  if (!authReady || loading) {
+  if (sessionLoading || loading) {
     return (
       <div className="min-h-screen bg-gray-100 py-12 px-4 flex items-center justify-center">
         <p className="text-gray-600">Loading...</p>
