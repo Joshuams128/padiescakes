@@ -1,23 +1,29 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function StickyMobileCartButton() {
   const { getTotalItems } = useCart();
   const router = useRouter();
+  const pathname = usePathname();
   const cartItemCount = getTotalItems();
   const [visible, setVisible] = useState(false);
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const onScroll = () => {
-      setVisible(window.scrollY > window.innerHeight * 0.8);
+      if (isHomePage) {
+        setVisible(window.scrollY > window.innerHeight * 0.8);
+      } else {
+        setVisible(true);
+      }
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [isHomePage]);
 
   return (
     <div
