@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Hero() {
   return (
     <section className="relative bg-[color:var(--color-cream-50)] text-[color:var(--color-espresso-900)] overflow-hidden">
-      <div className="container-custom grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-10 pb-16 sm:pt-14 sm:pb-20 lg:pt-24 lg:pb-28">
+      <div className="container-custom grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pt-16 lg:pb-20">
         {/* Copy */}
         <div className="lg:col-span-6 order-2 lg:order-1">
           <h1 className="font-serif font-light leading-[1.02] tracking-tight text-[clamp(2.5rem,6.5vw,5rem)]">
@@ -20,14 +20,8 @@ export default function Hero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link href="/shop" className="btn-espresso">
-              Order Now
+              View our treats
               <span aria-hidden="true">→</span>
-            </Link>
-            <Link
-              href="/shop"
-              className="text-[color:var(--color-espresso-900)] font-medium underline underline-offset-[6px] decoration-[color:var(--color-blush-300)] decoration-2 hover:decoration-[color:var(--color-blush-400)] transition-colors"
-            >
-              View the menu
             </Link>
           </div>
 
@@ -51,8 +45,8 @@ export default function Hero() {
         <div className="lg:col-span-6 order-1 lg:order-2 relative">
           <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] max-h-[78vh] w-full rounded-[28px] overflow-hidden shadow-[0_30px_80px_-30px_rgba(74,47,34,0.35)]">
             <Image
-              src="/images/7-bouquet.png"
-              alt="7-Cupcake Bouquet — Padie's Cakes"
+              src="/images/12cupcakebouquet.png"
+              alt="12-Cupcake Bouquet — Padie's Cakes"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -60,8 +54,6 @@ export default function Hero() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-espresso-900)]/15 to-transparent pointer-events-none" />
           </div>
-          <div className="hidden lg:block absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-[color:var(--color-blush-100)] -z-0" />
-          <div className="hidden lg:block absolute -top-4 right-8 w-20 h-20 rounded-full bg-[color:var(--color-cream-200)] -z-0" />
         </div>
       </div>
     </section>

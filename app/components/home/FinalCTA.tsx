@@ -9,7 +9,7 @@ export default function FinalCTA() {
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-[color:var(--color-cream-50)]">
             Ready to order your cake?
           </h2>
-          <p className="mt-6 text-lg sm:text-xl text-[color:var(--color-cream-100)]/90 max-w-xl">
+          <p className="mt-6 text-lg sm:text-xl font-semibold text-[color:var(--color-cream-50)] max-w-xl">
             Birthdays, weddings, weekday pick-me-ups — tell us what you&apos;re
             celebrating and we&apos;ll pipe it into something worth the photo.
           </p>

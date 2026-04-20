@@ -43,7 +43,7 @@ export default function ShopContent({
       <div className="container-custom">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Shop Our Collection</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">Shop Our Desserts</h1>
           <p className="text-xl text-gray-600">
             Handcrafted treats for every occasion
           </p>

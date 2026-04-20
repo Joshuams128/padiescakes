@@ -13,20 +13,12 @@ interface FeaturedProduct {
 
 const FEATURED_PRODUCTS: FeaturedProduct[] = [
   {
-    name: 'All My Love',
-    slug: 'all-my-love',
-    basePrice: 65,
-    category: 'bouquets',
-    image: '/images/allmylove-2.JPG',
-    alt: 'All My Love bouquet',
-  },
-  {
-    name: '12-Cupcake Bouquet',
-    slug: '12-cupcake-bouquet',
-    basePrice: 95,
-    category: 'bouquets',
-    image: '/images/12cupcakebouquet.png',
-    alt: '12-Cupcake Bouquet',
+    name: 'Heart Shaped Vintage Cake',
+    slug: 'heart-shaped-vintage-cake',
+    basePrice: 100,
+    category: 'cakes',
+    image: '/images/heart-shaped-vintage-cake.jpg',
+    alt: 'Heart Shaped Vintage Cake',
   },
   {
     name: '14 Mini Cupcake Bouquet on a Cake Board',
@@ -37,12 +29,20 @@ const FEATURED_PRODUCTS: FeaturedProduct[] = [
     alt: '14 Mini Cupcake Bouquet on a Cake Board',
   },
   {
-    name: '19-Cupcake Bouquet',
-    slug: '19-cupcake-bouquet',
-    basePrice: 150,
+    name: 'Cupcake Gift Box – Box of 4',
+    slug: '4-cupcake-giftbox',
+    basePrice: 30,
+    category: 'boxed-cupcakes',
+    image: '/images/giftbox.webp',
+    alt: 'Cupcake Gift Box – Box of 4',
+  },
+  {
+    name: '12-Cupcake Bouquet',
+    slug: '12-cupcake-bouquet',
+    basePrice: 95,
     category: 'bouquets',
-    image: '/images/19cupcake.webp',
-    alt: '19-Cupcake Bouquet',
+    image: '/images/12cupcakebouquet.png',
+    alt: '12-Cupcake Bouquet',
   },
 ];
 
@@ -58,7 +58,7 @@ export default async function SignatureCakes() {
               Signature
             </span>
             <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)]">
-              Our most loved bouquets
+              Our most loved Products
             </h2>
           </div>
           <Link
