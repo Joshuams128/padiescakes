@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Hero() {
   return (
     <section className="relative bg-[color:var(--color-cream-50)] text-[color:var(--color-espresso-900)] overflow-hidden">
-      <div className="container-custom grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-8 pb-12 sm:pt-10 sm:pb-14 lg:pt-16 lg:pb-20">
+      <div className="container-custom grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-2 pb-12 sm:pt-4 sm:pb-14 lg:pt-8 lg:pb-20">
         {/* Copy */}
         <div className="lg:col-span-6 order-2 lg:order-1">
           <h1 className="font-serif font-light leading-[1.02] tracking-tight text-[clamp(2.5rem,6.5vw,5rem)]">
