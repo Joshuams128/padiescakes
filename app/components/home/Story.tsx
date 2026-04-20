@@ -14,7 +14,15 @@ export default function Story() {
 
   return (
     <section className="bg-[color:var(--color-blush-50)] py-20 sm:py-28">
-      <div className="container-custom grid lg:grid-cols-12 gap-12 items-center">
+      <div className="container-custom grid lg:grid-cols-12 gap-12 lg:items-center">
+        {/* Heading - mobile first, then image, then description */}
+        <Reveal className="lg:col-span-7 order-1 lg:order-2">
+          <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)] leading-[1.05] max-w-xl">
+            Designed for weddings, celebrations, and unforgettable moments.
+          </h2>
+        </Reveal>
+
+        {/* Image */}
         <Reveal className="lg:col-span-5 order-2 lg:order-1">
           <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:mx-0 rounded-[24px] overflow-hidden">
             <Image
@@ -28,10 +36,8 @@ export default function Story() {
           </div>
         </Reveal>
 
-        <Reveal className="lg:col-span-7 order-1 lg:order-2" delay={120}>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)] leading-[1.05] max-w-xl">
-            Designed for weddings, celebrations, and unforgettable moments.
-          </h2>
+        {/* Description & CTA */}
+        <Reveal className="lg:col-span-7 order-3 lg:order-3" delay={120}>
           <div className="mt-6 space-y-5 text-[color:var(--color-espresso-700)] text-lg leading-relaxed max-w-xl">
             <p>
               <span className="hidden sm:inline">{FULL_TEXT}</span>
