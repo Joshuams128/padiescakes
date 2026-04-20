@@ -15,7 +15,7 @@ export default function Story() {
   return (
     <section className="bg-[color:var(--color-blush-50)] py-20 sm:py-28">
       <div className="container-custom grid lg:grid-cols-12 gap-12 items-center">
-        <Reveal className="lg:col-span-5">
+        <Reveal className="lg:col-span-5 order-2 lg:order-1">
           <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:mx-0 rounded-[24px] overflow-hidden">
             <Image
               src="/images/44-Cupcake-Bouquet-scaled.jpg"
@@ -28,7 +28,7 @@ export default function Story() {
           </div>
         </Reveal>
 
-        <Reveal className="lg:col-span-7" delay={120}>
+        <Reveal className="lg:col-span-7 order-1 lg:order-2" delay={120}>
           <h2 className="mt-3 font-serif text-4xl sm:text-5xl tracking-tight text-[color:var(--color-espresso-900)] leading-[1.05] max-w-xl">
             Designed for weddings, celebrations, and unforgettable moments.
           </h2>

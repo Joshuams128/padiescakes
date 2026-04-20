@@ -109,14 +109,14 @@ export default function ShopContent({
                 </div>
               </Link>
 
-              {/* Quick Add Button (shown on hover) */}
+              {/* View item button (desktop hover only) */}
               {hoveredProduct === product.id && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none">
                   <Link
                     href={`/product/${product.id}`}
                     className="pointer-events-auto bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all transform scale-105"
                   >
-                    Quick Add
+                    View item
                   </Link>
                 </div>
               )}
