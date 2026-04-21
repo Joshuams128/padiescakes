@@ -43,7 +43,7 @@ export default function Hero() {
 
         {/* Image */}
         <div className="lg:col-span-6 order-1 lg:order-2 relative">
-          <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] max-h-[78vh] w-full rounded-[28px] overflow-hidden shadow-[0_30px_80px_-30px_rgba(74,47,34,0.35)]">
+          <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] max-h-[50vh] sm:max-h-[78vh] w-full rounded-[28px] overflow-hidden shadow-[0_30px_80px_-30px_rgba(74,47,34,0.35)]">
             <Image
               src="/images/12cupcakebouquet.png"
               alt="12-Cupcake Bouquet — Padie's Cakes"

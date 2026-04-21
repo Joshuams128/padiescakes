@@ -65,7 +65,7 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4">
+          <div className="md:hidden mt-4 pb-4 space-y-4 text-center">
             <Link
               href="/"
               className="block text-gray-800 hover:text-gray-600 transition-colors"
