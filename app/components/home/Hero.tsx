@@ -32,7 +32,7 @@ export default function Hero() {
             </div>
             <div>
               <dt className="text-[color:var(--color-espresso-500)]">Orders</dt>
-              <dd className="font-serif text-xl mt-1">1000</dd>
+              <dd className="font-serif text-xl mt-1">1000+</dd>
             </div>
             <div>
               <dt className="text-[color:var(--color-espresso-500)]">Rating</dt>
