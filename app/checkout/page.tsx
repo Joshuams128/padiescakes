@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { dietaryAddons, products, cakeFillings } from '@/lib/products';
 
 const BLOCKED_START = new Date('2026-04-23T00:00:00');
-const BLOCKED_END = new Date('2026-04-29T23:59:59');
+const BLOCKED_END = new Date('2026-04-28T23:59:59');
 
 function isDateBlocked(date: Date) {
   return date >= BLOCKED_START && date <= BLOCKED_END;
