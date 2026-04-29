@@ -383,9 +383,6 @@ export default function CheckoutPage() {
                     }
                     return <p className="mt-1 text-sm text-gray-500">Orders must be placed at least 3 days in advance.</p>;
                   })()}
-                  <p className="mt-1 text-sm text-red-500 font-medium">
-                    Note: We are closed April 23–29. No orders can be placed for or on these dates.
-                  </p>
                 </div>
 
                 {/* Special Notes */}
@@ -407,11 +404,6 @@ export default function CheckoutPage() {
 
               {/* Submit Button */}
               <div className="mt-8">
-                {todayIsBlocked && (
-                  <p className="mb-4 text-sm text-center text-red-600 font-medium">
-                    We are closed April 23–29 and are not accepting orders during this period.
-                  </p>
-                )}
                 <button
                   type="submit"
                   disabled={isSubmitting || todayIsBlocked}
