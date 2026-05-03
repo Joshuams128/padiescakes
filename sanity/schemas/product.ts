@@ -201,6 +201,10 @@ export default defineType({
     }),
   ],
   preview: {
-    select: {title: 'name', subtitle: 'category', media: 'image'},
+    select: {
+      title: 'name',
+      subtitle: 'category.name',
+      media: 'image',
+    },
   },
 })
