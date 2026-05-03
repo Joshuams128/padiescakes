@@ -1,16 +1,19 @@
 import { Suspense } from 'react';
-import { getProducts } from '@/lib/queries';
+import { getProducts, getCategories } from '@/lib/queries';
 import { urlFor } from '@/lib/sanity';
-import { categories, type Product } from '@/lib/products';
+import { type Product } from '@/lib/products';
 import ShopContent from './ShopContent';
 
 export default async function ShopPage() {
-  const sanityProducts = await getProducts();
+  const [sanityProducts, sanityCategories] = await Promise.all([
+    getProducts(),
+    getCategories(),
+  ]);
 
   const products: Product[] = sanityProducts.map((p) => ({
     id: p.slug.current,
     name: p.name,
-    category: p.category,
+    category: p.category?.slug ?? '',
     description: p.description ?? '',
     basePrice: p.basePrice,
     image: p.image?.asset ? urlFor(p.image).width(800).url() : '',
@@ -33,6 +36,11 @@ export default async function ShopPage() {
       return acc;
     }, {}),
   }));
+
+  const categories = [
+    { id: 'all', name: 'All Products' },
+    ...sanityCategories.map((c) => ({ id: c.slug.current, name: c.name })),
+  ];
 
   return (
     <Suspense>

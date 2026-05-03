@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, updateTag } from 'next/cache';
 import { NextResponse, type NextRequest } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
 
@@ -26,11 +26,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Bad body: missing _type' }, { status: 400 });
     }
 
+    // Invalidate cached Sanity fetches (tagged in lib/queries.ts)
+    updateTag('sanity');
+    if (body._type) {
+      updateTag(body._type);
+    }
+
     revalidatePath('/shop', 'page');
     revalidatePath('/', 'page');
 
     const slug = typeof body.slug === 'string' ? body.slug : body.slug?.current;
     if (body._type === 'product' && slug) {
+      updateTag(`product:${slug}`);
       revalidatePath(`/product/${slug}`, 'page');
     }
 

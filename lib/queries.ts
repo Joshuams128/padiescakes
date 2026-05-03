@@ -1,11 +1,13 @@
 import {sanityClient} from './sanity'
 
-export type ProductCategory =
-  | 'bouquets'
-  | 'boxed-cupcakes'
-  | 'mini-cupcakes'
-  | 'cakes'
-  | 'party-favours'
+export type ProductCategory = string
+
+export interface SanityCategory {
+  _id: string
+  name: string
+  slug: {current: string}
+  sortOrder?: number
+}
 
 export interface SanityImageRef {
   asset?: {_ref: string}
@@ -33,7 +35,7 @@ export interface SanityProduct {
   _id: string
   name: string
   slug: {current: string}
-  category: ProductCategory
+  category: {slug: string; name: string}
   description?: string
   basePrice: number
   image?: SanityImageRef
@@ -62,7 +64,7 @@ const productFields = `
   _id,
   name,
   slug,
-  category,
+  "category": category->{ "slug": slug.current, name },
   description,
   basePrice,
   image { asset, alt },
@@ -88,6 +90,16 @@ export async function getProductBySlug(slug: string): Promise<SanityProduct | nu
     `*[_type == "product" && slug.current == $slug && available == true][0] {${productFields}}`,
     {slug},
     {next: {tags: ['sanity', 'product', `product:${slug}`]}},
+  )
+}
+
+export async function getCategories(): Promise<SanityCategory[]> {
+  return sanityClient.fetch(
+    `*[_type == "category" && available == true] | order(sortOrder asc, name asc) {
+      _id, name, slug, sortOrder
+    }`,
+    {},
+    {next: {tags: ['sanity', 'category']}},
   )
 }
 

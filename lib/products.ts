@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   name: string;
-  category: 'bouquets' | 'boxed-cupcakes' | 'mini-cupcakes' | 'cakes' | 'party-favours';
+  category: string;
   description: string;
   basePrice: number;
   image: string;

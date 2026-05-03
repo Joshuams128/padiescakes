@@ -21,17 +21,10 @@ export default defineType({
     defineField({
       name: 'category',
       title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Bouquets', value: 'bouquets'},
-          {title: 'Boxed Cupcakes', value: 'boxed-cupcakes'},
-          {title: 'Mini Cupcakes', value: 'mini-cupcakes'},
-          {title: 'Cakes', value: 'cakes'},
-          {title: 'Party Favours', value: 'party-favours'},
-        ],
-        layout: 'radio',
-      },
+      type: 'reference',
+      to: [{type: 'category'}],
+      description:
+        'Manage categories under the "Category" document type in Studio. Adding a new Category document makes it available here.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -155,7 +148,6 @@ export default defineType({
       title: 'Filling Prices (Cakes only)',
       description: 'Optionally override the default filling prices for this cake. Leave empty to use defaults.',
       type: 'array',
-      hidden: ({parent}) => parent?.category !== 'cakes',
       of: [
         defineArrayMember({
           type: 'object',

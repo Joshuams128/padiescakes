@@ -5,11 +5,13 @@ import { getProductBySlug, type SanityProduct } from '@/lib/queries';
 import { type Product } from '@/lib/products';
 import ProductPageContent from './ProductPageContent';
 
+export const revalidate = 60;
+
 function toProduct(p: SanityProduct): Product {
   return {
     id: p.slug.current,
     name: p.name,
-    category: p.category,
+    category: p.category?.slug ?? '',
     description: p.description ?? '',
     basePrice: p.basePrice,
     image: p.image?.asset ? urlFor(p.image).width(800).url() : '',
@@ -38,7 +40,7 @@ const relatedProductFields = `
   _id,
   name,
   slug,
-  category,
+  "category": category->{ "slug": slug.current, name },
   description,
   basePrice,
   image { asset, alt },
@@ -51,10 +53,10 @@ const relatedProductFields = `
   fillingPrices[] { key, price }
 `;
 
-async function getRelatedProducts(category: string, currentSlug: string): Promise<SanityProduct[]> {
+async function getRelatedProducts(categorySlug: string, currentSlug: string): Promise<SanityProduct[]> {
   return sanityClient.fetch(
-    `*[_type == "product" && available == true && category == $category && slug.current != $currentSlug] | order(name asc) [0...4] {${relatedProductFields}}`,
-    { category, currentSlug },
+    `*[_type == "product" && available == true && category->slug.current == $categorySlug && slug.current != $currentSlug] | order(name asc) [0...4] {${relatedProductFields}}`,
+    { categorySlug, currentSlug },
     { next: { tags: ['sanity', 'product'] } },
   );
 }
@@ -77,7 +79,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   }
 
   const product = toProduct(sanityProduct);
-  const sanityRelated = await getRelatedProducts(sanityProduct.category, id);
+  const sanityRelated = await getRelatedProducts(sanityProduct.category?.slug ?? '', id);
   const relatedProducts = sanityRelated.map(toProduct);
 
   return <ProductPageContent product={product} relatedProducts={relatedProducts} />;
