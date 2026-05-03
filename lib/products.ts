@@ -9,6 +9,7 @@ export interface Product {
   flavors: string[];
   colors?: string[];
   dietaryPrices?: Record<string, number>;
+  showDietaryOptions?: boolean;
   fillingPrices?: Record<string, number>;
   maxFlavors?: number;
   minOrder?: number;

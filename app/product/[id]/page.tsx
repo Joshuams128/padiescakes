@@ -33,6 +33,7 @@ function toProduct(p: SanityProduct): Product {
       acc[d.key] = d.price;
       return acc;
     }, {}),
+    showDietaryOptions: p.showDietaryOptions,
   };
 }
 

@@ -97,10 +97,18 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'showDietaryOptions',
+      title: 'Show Dietary Options',
+      description: 'Turn off to hide the dietary options section on this product page.',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'dietaryPrices',
       title: 'Dietary Options',
       description: 'Pick a dietary option and set its extra price for this product.',
       type: 'array',
+      hidden: ({parent}) => parent?.showDietaryOptions === false,
       of: [
         defineArrayMember({
           type: 'object',

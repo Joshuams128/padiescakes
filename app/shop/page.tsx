@@ -4,6 +4,8 @@ import { urlFor } from '@/lib/sanity';
 import { type Product } from '@/lib/products';
 import ShopContent from './ShopContent';
 
+export const revalidate = 60;
+
 export default async function ShopPage() {
   const [sanityProducts, sanityCategories] = await Promise.all([
     getProducts(),
@@ -35,6 +37,7 @@ export default async function ShopPage() {
       acc[d.key] = d.price;
       return acc;
     }, {}),
+    showDietaryOptions: p.showDietaryOptions,
   }));
 
   const categories = [

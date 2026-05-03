@@ -386,7 +386,7 @@ export default function ProductPageContent({ product, relatedProducts }: Props) 
             )}
 
             {/* Dietary Add-ons */}
-            {product.id !== 'party-wedding-favours' && (
+            {product.id !== 'party-wedding-favours' && product.showDietaryOptions !== false && (
               <div className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
                   Dietary Options (Optional)

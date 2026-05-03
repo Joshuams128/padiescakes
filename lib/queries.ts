@@ -46,6 +46,7 @@ export interface SanityProduct {
   sizes?: SanityProductSize[]
   dietaryPrices?: SanityDietaryPrice[]
   fillingPrices?: SanityDietaryPrice[]
+  showDietaryOptions?: boolean
 }
 
 export interface SanitySize {
@@ -74,7 +75,8 @@ const productFields = `
   minOrder,
   sizes[] { name, pieces, price, serves },
   dietaryPrices[] { key, price },
-  fillingPrices[] { key, price }
+  fillingPrices[] { key, price },
+  showDietaryOptions
 `
 
 export async function getProducts(): Promise<SanityProduct[]> {
