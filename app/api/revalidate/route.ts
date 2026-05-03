@@ -1,4 +1,4 @@
-import { revalidatePath, updateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse, type NextRequest } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
 
@@ -27,9 +27,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Invalidate cached Sanity fetches (tagged in lib/queries.ts)
-    updateTag('sanity');
+    const profile = { expire: 60 };
+    revalidateTag('sanity', profile);
     if (body._type) {
-      updateTag(body._type);
+      revalidateTag(body._type, profile);
     }
 
     revalidatePath('/shop', 'page');
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     const slug = typeof body.slug === 'string' ? body.slug : body.slug?.current;
     if (body._type === 'product' && slug) {
-      updateTag(`product:${slug}`);
+      revalidateTag(`product:${slug}`, profile);
       revalidatePath(`/product/${slug}`, 'page');
     }
 
